@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>EECS 203 Exam 1 Review</title>
+<title>EECS 203 Exam 1 Course Summary</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: a fixed left rail of section links (desktop) beside one long operable column;
-   summary tiles first, then plan, checklist, cheat sheets, practice, mistakes. */
+/* Layout: a reading document. Sticky contents rail on desktop, one ~70ch column of
+   lecture-by-lecture sections, each with vocab, rules, how-to-write, and watch-outs. */
 :root{
   --bg:#f4f6f9; --surface:#ffffff; --fg:#17212b; --muted:#5d6b7a; --line:#d8dee6;
   --accent:#00274c; --accent-fg:#ffffff; --soft:#e7edf5; --maize:#ffcb05; --maize-fg:#1d1a00;
@@ -15,6 +15,7 @@
   --display:"Newsreader",Georgia,"Times New Roman",serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --bg:#0f151c; --surface:#171f29; --fg:#e6ebf1; --muted:#9aa7b5; --line:#2a3542;
@@ -28,781 +29,669 @@
   color-scheme:dark }
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55;margin:0;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15.5px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px}
 a{color:var(--accent)}
-h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
-h1{font-size:2.1rem;font-weight:600}
-h2{font-size:1.5rem;font-weight:600}
-h3{font-size:1.12rem;font-weight:600}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:2.2rem;font-weight:600}
+h2{font-size:1.6rem;font-weight:600}
+h3{font-size:1.15rem;font-weight:600;margin-top:4px}
+h4{font-family:var(--body);font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
 p{margin:0}
-.eyebrow{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
-.muted{color:var(--muted)}
-.mono{font-family:var(--mono);font-size:.92em}
-code,.k{font-family:var(--mono);font-size:.92em;background:var(--soft);padding:.05em .35em;border-radius:4px}
-.wrap{max-width:1180px;margin:0 auto}
+.wrap{max-width:1120px;margin:0 auto}
 header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;padding-block:28px 18px;border-bottom:3px solid var(--maize)}
-header .lede{max-width:60ch;color:var(--muted);margin-top:6px}
-.count{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
-.count .big{font-size:1.9rem;font-weight:500;color:var(--fg)}
-.count .lbl{font-size:.75rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.eyebrow{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+header .lede{max-width:62ch;color:var(--muted);margin-top:6px}
+.links{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:600 .82rem var(--body);padding:8px 12px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none}
+.btn:hover{background:var(--soft)}
+.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
 
 .shell{display:grid;grid-template-columns:1fr;gap:28px;padding-top:22px}
-@media (min-width:960px){.shell{grid-template-columns:210px minmax(0,1fr)}}
-nav.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);align-self:start;display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
-@media (min-width:960px){nav.rail{flex-direction:column;overflow:visible}}
-nav.rail a{text-decoration:none;color:var(--muted);font-size:.9rem;padding:7px 10px;border-radius:6px;white-space:nowrap;border-left:3px solid transparent}
+@media (min-width:960px){.shell{grid-template-columns:230px minmax(0,1fr)}}
+nav.rail{position:sticky;top:12px;align-self:start;display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+@media (min-width:960px){nav.rail{flex-direction:column;overflow:visible;max-height:calc(100vh - 24px);overflow-y:auto}}
+nav.rail a{text-decoration:none;color:var(--muted);font-size:.88rem;padding:6px 10px;border-radius:6px;white-space:nowrap;border-left:3px solid transparent}
 nav.rail a:hover{background:var(--soft);color:var(--fg)}
 nav.rail a.on{color:var(--fg);border-left-color:var(--maize);background:var(--soft)}
+nav.rail a .n{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-right:6px}
 @media (max-width:959px){nav.rail{background:var(--bg);padding-block:8px;z-index:3}nav.rail a{border-left:0;border:1px solid var(--line)}nav.rail a.on{border-color:var(--accent)}}
-main{display:flex;flex-direction:column;gap:44px;min-width:0}
-section{scroll-margin-top:16px;display:flex;flex-direction:column;gap:16px;min-width:0}
-.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px}
 
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.tile{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;min-width:0}
-.tile .v{font-family:var(--display);font-size:1.7rem;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
-.tile .l{font-size:.8rem;color:var(--muted);margin-top:4px}
-.bar{height:8px;background:var(--soft);border-radius:999px;overflow:hidden;display:flex;margin-top:8px}
-.bar i{display:block;height:100%}
-.bar .g{background:var(--good)}.bar .w{background:var(--warn)}.bar .b{background:var(--bad)}
-
-.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px 20px;min-width:0}
-.two{display:grid;grid-template-columns:1fr;gap:16px}
-@media (min-width:760px){.two{grid-template-columns:1fr 1fr}}
-.three{display:grid;grid-template-columns:1fr;gap:16px}
-@media (min-width:760px){.three{grid-template-columns:repeat(3,1fr)}}
-table{border-collapse:collapse;width:100%;font-size:.92rem}
-th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-weight:600;font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
-td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+main{display:flex;flex-direction:column;gap:40px;min-width:0;max-width:78ch}
+section{scroll-margin-top:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.sec-head{display:flex;flex-direction:column;gap:4px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.sec-head .lec{font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+.vocab{display:flex;flex-wrap:wrap;gap:6px}
+.vocab span{font-size:.8rem;background:var(--soft);padding:2px 9px;border-radius:999px;color:var(--fg)}
+.block{display:flex;flex-direction:column;gap:6px}
+ul,ol{margin:0;padding-left:1.3em}
+li{margin:3px 0}
+li::marker{color:var(--muted)}
+.rule{font-family:var(--mono);font-size:.9em;background:var(--soft);padding:.05em .4em;border-radius:4px;white-space:nowrap}
+.ex{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:12px 14px;font-size:.94rem;display:flex;flex-direction:column;gap:6px}
+.ex .t{font-weight:600}
+.pre{font-family:var(--mono);font-size:.86rem;background:var(--soft);padding:10px 12px;border-radius:6px;white-space:pre-wrap;line-height:1.55;overflow-x:auto}
+.watch{background:var(--warn-soft);border-radius:6px;padding:10px 14px;font-size:.93rem}
+.watch h4{color:var(--warn)}
+.watch ul{margin-top:4px}
+.asks{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:.93rem}
+.asks ul{margin-top:4px}
 .tbl{overflow-x:auto}
-
-.lookup{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.lookup input{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg);width:12ch;text-transform:uppercase}
-.lookup input:focus{outline:2px solid var(--accent);outline-offset:1px}
-.room{font-family:var(--display);font-size:1.4rem;font-weight:600;min-height:1.4em}
-
-ul.plain{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.task{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:6px;border:1px solid transparent}
-.task:hover{background:var(--soft)}
-.task input{margin-top:4px;width:17px;height:17px;accent-color:var(--accent);flex:none}
-.task.done label{color:var(--muted);text-decoration:line-through}
-.task label{cursor:pointer}
-.task small{display:block;color:var(--muted);font-size:.85rem;text-decoration:none}
-.day{display:flex;flex-direction:column;gap:10px}
-.day .dh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1px solid var(--line);padding-bottom:6px}
-.day .dh span{font-size:.8rem;color:var(--muted)}
-.day.today .dh h3::after{content:"today";font:600 .68rem var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--maize);color:var(--maize-fg);padding:2px 7px;border-radius:999px;margin-left:8px;vertical-align:middle}
-
-.topic{border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden}
-.topic>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:12px 16px}
-.topic>summary::-webkit-details-marker{display:none}
-.topic>summary .lec{font-family:var(--mono);font-size:.78rem;color:var(--muted);min-width:4.5ch}
-.topic>summary h3{flex:1 1 200px}
-.topic>summary .mini{display:flex;gap:4px}
-.topic>summary .mini i{display:block;width:10px;height:10px;border-radius:2px;background:var(--soft)}
-.topic>summary .mini i.g{background:var(--good)}.topic>summary .mini i.w{background:var(--warn)}.topic>summary .mini i.b{background:var(--bad)}
-.topic>summary .chev{color:var(--muted);transition:transform .15s}
-.topic[open]>summary .chev{transform:rotate(90deg)}
-.objs{border-top:1px solid var(--line);display:flex;flex-direction:column}
-.obj{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 14px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line)}
-.obj:last-child{border-bottom:0}
-.rate{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.rate button{font:600 .74rem var(--body);letter-spacing:.03em;padding:5px 9px;border:0;background:transparent;color:var(--muted);cursor:pointer}
-.rate button+button{border-left:1px solid var(--line)}
-.rate button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.rate button.on[data-v="g"]{background:var(--good-soft);color:var(--good)}
-.rate button.on[data-v="w"]{background:var(--warn-soft);color:var(--warn)}
-.rate button.on[data-v="b"]{background:var(--bad-soft);color:var(--bad)}
-@media (max-width:520px){.obj{grid-template-columns:1fr}}
-
-.quad{display:grid;grid-template-columns:auto 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.quad>div{background:var(--surface);padding:10px 12px;font-size:.92rem}
-.quad .h{font-weight:600;background:var(--soft);font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-.quad .rh{font-weight:600;background:var(--soft);font-family:var(--mono);text-transform:none;letter-spacing:0;font-size:.95rem}
-@media (max-width:560px){.quad{grid-template-columns:1fr}.quad .h.corner{display:none}}
-
-.tmpl{background:var(--soft);border-radius:6px;padding:10px 12px;font-family:var(--mono);font-size:.86rem;white-space:pre-wrap;margin-top:8px;line-height:1.5}
-.style-card h3{display:flex;align-items:baseline;gap:8px}
-.style-card .when{font-size:.85rem;color:var(--muted);margin-top:6px}
-.neg{font-family:var(--mono);font-size:.9rem}
-
-.defs{display:grid;grid-template-columns:1fr;gap:6px 16px}
-@media (min-width:760px){.defs{grid-template-columns:1fr 1fr}}
-.def{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--line);font-size:.93rem}
-.def b{flex:0 0 9.5em;font-weight:600}
-.def span{min-width:0}
-.pill{display:inline-block;font:600 .7rem var(--body);letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--soft);color:var(--muted)}
-.pill.given{background:var(--good-soft);color:var(--good)}
-.pill.sheet{background:var(--warn-soft);color:var(--warn)}
-
-.prob{border:1px solid var(--line);border-radius:8px;background:var(--surface)}
-.prob>summary{list-style:none;cursor:pointer;padding:14px 18px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 14px;align-items:start}
-.prob>summary::-webkit-details-marker{display:none}
-.prob>summary .tag{font:500 .72rem var(--mono);color:var(--accent);letter-spacing:.03em;padding-top:3px;white-space:nowrap}
-.prob>summary .q{min-width:0}
-.prob>summary .q b{display:block;font-weight:600;margin-bottom:2px}
-.prob>summary .show{font-size:.8rem;color:var(--muted);white-space:nowrap;padding-top:3px}
-.prob[open]>summary .show::before{content:"Hide solution"}
-.prob:not([open])>summary .show::before{content:"Show solution"}
-.prob .sol{border-top:1px solid var(--line);padding:14px 18px 16px;display:flex;flex-direction:column;gap:10px;font-size:.95rem}
-.prob .sol .ans{font-weight:600}
-.prob .sol .step{font-family:var(--mono);font-size:.88rem;background:var(--soft);padding:10px 12px;border-radius:6px;white-space:pre-wrap;line-height:1.55;overflow-x:auto}
-.prob .sol .note{color:var(--muted);font-size:.88rem;border-left:3px solid var(--maize);padding-left:10px}
-ol.opts{margin:4px 0 0;padding-left:1.4em;font-family:var(--mono);font-size:.9rem}
-ol.opts li{margin:2px 0}
-@media (max-width:560px){.prob>summary{grid-template-columns:1fr}.prob>summary .show{padding-top:0}}
-
-.mist{display:grid;grid-template-columns:1fr;gap:14px}
-@media (min-width:760px){.mist{grid-template-columns:1fr 1fr}}
-.mist ul{margin:8px 0 0;padding-left:1.2em;font-size:.93rem}
-.mist li{margin:5px 0}
-
-.mamc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;font-variant-numeric:tabular-nums}
-.mamc div{background:var(--soft);border-radius:6px;padding:8px 4px;font-size:.85rem}
-.mamc div b{display:block;font-family:var(--display);font-size:1.3rem}
-.btn{font:600 .82rem var(--body);padding:7px 12px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
-.btn:hover{background:var(--soft)}
-.btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-footer{margin-top:40px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:.76rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td.m{font-family:var(--mono);font-size:.88rem;white-space:nowrap}
+td.c{text-align:center;font-family:var(--mono)}
+.two{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:700px){.two{grid-template-columns:1fr 1fr}}
+.grid4{display:grid;grid-template-columns:auto 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;font-size:.9rem}
+.grid4>div{background:var(--surface);padding:8px 10px}
+.grid4 .h{font-weight:600;background:var(--soft);font-size:.76rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.grid4 .r{font-family:var(--mono);background:var(--soft);font-weight:500}
+@media (max-width:520px){.grid4{grid-template-columns:1fr}.grid4 .corner{display:none}}
+.final ol li{margin:6px 0}
+footer{margin-top:40px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px;max-width:78ch}
+sup{font-size:.72em}
 </style>
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} [hidden]{display:none!important}</style>
 </head>
 <body>
-
 <div class="wrap">
 <header class="top">
   <div>
-    <div class="eyebrow">EECS 203 · Fall 2026 · Prof. Diaz</div>
-    <h1>Exam 1 Review</h1>
-    <p class="lede">Everything for Thursday in one place: logistics, a plan through exam night, a self-rated topic checklist, the proof and definition cheat sheets, the Lecture 15 practice problems, and the mistakes the staff flagged in the practice exam keys.</p>
+    <div class="eyebrow">EECS 203 · Fall 2026 · Exam 1 · Thu Oct 22, 7–9 pm</div>
+    <h1>Course Summary, Lectures 1–12</h1>
+    <p class="lede">Every topic that can appear on Exam 1, in the order the course taught it. Each section has the vocabulary, the rules, how the course expects the proof to be written, and the traps. Read it top to bottom before Problem Roulette, then use the final checklist in the last ten minutes before the exam.</p>
   </div>
-  <div class="count" aria-live="polite">
-    <div class="big" id="cd">--</div>
-    <div class="lbl">until Exam 1 · Thu Oct 22 · 7:00 pm</div>
+  <div class="links">
+    <a class="btn" href="dashboard.html">Open the review dashboard</a>
   </div>
 </header>
 
 <div class="shell">
-<nav class="rail" aria-label="Sections">
-  <a href="#overview" class="on">Overview</a>
-  <a href="#plan">Plan</a>
-  <a href="#topics">Topic check</a>
-  <a href="#strategies">Proof strategies</a>
-  <a href="#definitions">Definitions</a>
-  <a href="#practice">Practice</a>
-  <a href="#mistakes">Common mistakes</a>
+<nav class="rail" aria-label="Contents">
+  <a href="#s1" class="on"><span class="n">L1</span>Propositions &amp; quantifiers</a>
+  <a href="#s2"><span class="n">L2</span>Proofs &amp; disproofs</a>
+  <a href="#s3"><span class="n">L3</span>Negation &amp; contrapositive</a>
+  <a href="#s4"><span class="n">L4</span>Logic &amp; Boolean algebra</a>
+  <a href="#s5"><span class="n">L5</span>Contradiction</a>
+  <a href="#s6"><span class="n">L6</span>Cases &amp; WLOG</a>
+  <a href="#s8"><span class="n">L8</span>Sets</a>
+  <a href="#s9"><span class="n">L9</span>Modular arithmetic</a>
+  <a href="#s10"><span class="n">L10</span>Inverses, EEA, Fermat</a>
+  <a href="#s11"><span class="n">L11</span>Functions</a>
+  <a href="#s12"><span class="n">L12</span>Countability</a>
+  <a href="#final"><span class="n">✓</span>Last-ten-minutes checklist</a>
 </nav>
 
 <main>
 
-<!-- ============ OVERVIEW ============ -->
-<section id="overview">
-  <div class="tiles">
-    <div class="tile"><div class="v" id="t-plan">0/0</div><div class="l">plan tasks done</div></div>
-    <div class="tile"><div class="v" id="t-solid">0</div><div class="l">objectives rated solid</div><div class="bar" id="t-bar"><i class="g" style="width:0%"></i><i class="w" style="width:0%"></i><i class="b" style="width:0%"></i></div></div>
-    <div class="tile"><div class="v" id="t-shaky">0</div><div class="l">shaky or not yet (review these first)</div></div>
-    <div class="tile"><div class="v">16</div><div class="l">questions · 120 minutes · about 7.5 min each</div></div>
+<!-- ================= L1 ================= -->
+<section id="s1">
+  <div class="sec-head"><span class="lec">Lecture 1</span><h2>Propositions, predicates, quantifiers</h2></div>
+  <div class="vocab"><span>proposition</span><span>predicate</span><span>domain</span><span>quantifier</span><span>∀ for all</span><span>∃ there exists</span><span>proof</span><span>even</span><span>odd</span></div>
+
+  <div class="block">
+    <h4>Definitions</h4>
+    <ul>
+      <li>A <b>proposition</b> is a statement that is either true or false. “2 + 2 = 4” is one; “Why does my knee hurt?” and “This statement is false” are not.</li>
+      <li>A <b>predicate</b> is a proposition with unspecified variables, like P(x): “x + 2 = 4”. It has no truth value until x is fixed or quantified.</li>
+      <li>A <b>quantified proposition</b> has three parts: quantifier, domain, predicate. “For all integers x, x(x + 2) ≥ −1.”</li>
+      <li><span class="rule">∀x P(x)</span> P is true for every x in the domain. <span class="rule">∃x P(x)</span> P is true for at least one x.</li>
+      <li>Domains: ℤ integers, ℤ⁺ positive integers {1, 2, 3, …}, ℕ naturals {0, 1, 2, …} (includes 0 in this course), ℚ rationals, ℝ reals. x ∈ S means x is an element of S.</li>
+      <li><b>Even:</b> x = 2k for some integer k. <b>Odd:</b> x = 2k + 1 for some integer k. Every proof about parity goes through these equations.</li>
+    </ul>
   </div>
 
-  <div class="two">
-    <div class="card">
-      <div class="eyebrow">Format and points</div>
-      <div class="tbl"><table>
-        <thead><tr><th>Section</th><th>Count</th><th>Each</th><th>Total</th></tr></thead>
-        <tbody>
-          <tr><td>Single-answer multiple choice</td><td class="num">3</td><td class="num">4</td><td class="num">12</td></tr>
-          <tr><td>Multiple-answer multiple choice</td><td class="num">6</td><td class="num">5</td><td class="num">30</td></tr>
-          <tr><td>Short answer (show work)</td><td class="num">5</td><td class="num">7–8</td><td class="num">~38</td></tr>
-          <tr><td>Free response (show work)</td><td class="num">2</td><td class="num">10–12</td><td class="num">~22</td></tr>
-        </tbody>
-      </table></div>
-      <p class="muted" style="margin-top:10px;font-size:.88rem">Short answer and free response are about 60% of the points. Do the questions you know first, then leave a solid block for the free response.</p>
-      <div style="margin-top:14px">
-        <div class="eyebrow">Multiple-answer scoring (5 pts, lose 2 per error)</div>
-        <div class="mamc" style="margin-top:8px">
-          <div><b>5</b>0 errors</div><div><b>3</b>1 error</div><div><b>1</b>2 errors</div><div><b>0</b>3+ errors</div>
-        </div>
-        <p class="muted" style="margin-top:8px;font-size:.88rem">An error is bubbling a wrong option or missing a right one. Zero correct options is possible. Judge each option on its own; do not assume a “pattern” of answers.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="eyebrow">Where and what to bring</div>
-      <div class="lookup" style="margin-top:10px">
-        <label for="uniq" class="muted" style="font-size:.9rem">Your uniqname</label>
-        <input id="uniq" placeholder="e.g. atrybus" autocomplete="off" spellcheck="false" maxlength="12">
-        <div class="room" id="room"></div>
-      </div>
-      <div class="tbl" style="margin-top:10px"><table>
-        <thead><tr><th>Room</th><th>Uniqname range</th></tr></thead>
-        <tbody id="rooms">
-          <tr><td>CHRYS 133</td><td class="mono">AAA – ARJA</td></tr>
-          <tr><td>CHRYS 165</td><td class="mono">ARJB – CHRJ</td></tr>
-          <tr><td>DOW 1206</td><td class="mono">CHRK – DSA</td></tr>
-          <tr><td>DOW 1013</td><td class="mono">DSB – JIALB</td></tr>
-          <tr><td>DOW 1014</td><td class="mono">JIALC – KMHB</td></tr>
-          <tr><td>LCSIB 1365</td><td class="mono">KMHC – MVO</td></tr>
-          <tr><td>LCSIB 1355</td><td class="mono">MVP – UTO</td></tr>
-          <tr><td>LCSIB 2365</td><td class="mono">UUP – ZZZ</td></tr>
-        </tbody>
-      </table></div>
-      <ul class="plain" style="margin-top:12px;font-size:.92rem">
-        <li>One 8.5×11 note sheet, both sides, made by you (typed or handwritten)</li>
-        <li>Pencils or pens, and your MCard</li>
-        <li>No calculators or electronics. Full 120 minutes even if your room starts late.</li>
-        <li>SSD or alternate time? Confirm your room by email; otherwise use the Admin Form now.</li>
-      </ul>
-    </div>
+  <div class="ex"><div class="t">Model proof from Lecture 1: for all positive integers n, n² − n is even.</div>
+    <div class="pre">Let n be an arbitrary positive integer. Factor n² − n = n(n − 1).
+One of n and n − 1 is even and the other is odd, and an even times an odd
+integer is even. So n² − n is even.</div>
+    <p>Checking n = 1, 2, 3 builds intuition but is not a proof of a “for all”. Pictures help but are not proofs either.</p>
   </div>
 
-  <div class="card">
-    <div class="eyebrow">Coverage</div>
-    <p style="margin-top:6px">Lectures 1–12 and Homeworks 1–6: proofs and quantifiers, negation and contrapositive, logic and Boolean algebra, contradiction and cases, sets, modular arithmetic and inverses, functions, countability. <b>Not on Exam 1:</b> combinatorial game theory (Lecture 7 bonus) and graph theory (Lectures 13–14, on Exam 2).</p>
-  </div>
+  <div class="asks"><h4>How it shows up on exams</h4><ul>
+    <li>“Which of these are propositions / predicates?”</li>
+    <li>“Is this quantified proposition true or false?” with a one-line reason.</li>
+    <li>Writing a short direct proof from the definition of even or odd.</li>
+  </ul></div>
 </section>
 
-<!-- ============ PLAN ============ -->
-<section id="plan">
-  <div class="sec-head">
-    <h2>Plan through exam night</h2>
-    <button class="btn" id="resetPlan" type="button">Reset checkboxes</button>
+<!-- ================= L2 ================= -->
+<section id="s2">
+  <div class="sec-head"><span class="lec">Lecture 2</span><h2>Proofs and disproofs, nested quantifiers</h2></div>
+  <div class="vocab"><span>example</span><span>counterexample</span><span>divides</span><span>nested quantifiers</span><span>arbitrary element</span></div>
+
+  <div class="block">
+    <h4>The grid you must know cold</h4>
+    <div class="grid4">
+      <div class="h corner"></div><div class="h">To prove</div><div class="h">To disprove</div>
+      <div class="r">∃x P(x)</div><div>Name one specific x in the domain and show P(x) is true.</div><div>“Let x be any element of the domain …” and show P(x) is false for that generic x.</div>
+      <div class="r">∀x P(x)</div><div>“Let x be an arbitrary …” and show P(x) using only that x is in the domain.</div><div>Name one counterexample in the domain and show P(x) fails there.</div>
+    </div>
+    <ul>
+      <li>A <b>disproof</b> of P is a proof of ¬P. Those are the same task.</li>
+      <li><b>d | n</b> (“d divides n”) means n = dk for some integer k. “x is a multiple of y” means the same thing with roles swapped.</li>
+    </ul>
   </div>
-  <div class="three">
-    <div class="card day" data-day="2026-10-19">
-      <div class="dh"><h3>Monday</h3><span>Oct 19 · tonight</span></div>
-      <ul class="plain" id="d1">
-        <li class="task"><input type="checkbox" id="p1"><label for="p1">Rate every objective in the topic check below<small>Be honest. Shaky and not-yet items decide what you re-read tomorrow.</small></label></li>
-        <li class="task"><input type="checkbox" id="p2"><label for="p2">Draft the note sheet, page 1<small>Definitions not given on the exam, the four proof templates, the negation table, EEA steps, FLT.</small></label></li>
-        <li class="task"><input type="checkbox" id="p3"><label for="p3">Read the proof-strategy and definitions sections once<small>About 20 minutes. Say each template out loud.</small></label></li>
-        <li class="task"><input type="checkbox" id="p4"><label for="p4">Look up your room and sleep</label></li>
-      </ul>
-    </div>
-    <div class="card day" data-day="2026-10-20">
-      <div class="dh"><h3>Tuesday</h3><span>Oct 20 · practice exam 1</span></div>
-      <ul class="plain" id="d2">
-        <li class="task"><input type="checkbox" id="p5"><label for="p5">Take Practice Exam 1 timed: 120 min, note sheet only, no phone<small>File: Exam/Exam 1/Practice Exams/Exam 1 Practice Exam 1.pdf. Shade bubbles like the real thing.</small></label></li>
-        <li class="task"><input type="checkbox" id="p6"><label for="p6">Grade it with the [SOLUTION] key, then read every Common Mistakes box<small>Write down each point you lost and why, in one line each.</small></label></li>
-        <li class="task"><input type="checkbox" id="p7"><label for="p7">Re-rate the topics you missed, then re-read those lecture handout answers<small>Handouts are 2 pages each and have ANSWERS versions.</small></label></li>
-        <li class="task"><input type="checkbox" id="p8"><label for="p8">Redo one past HW proof per missed topic from scratch, compare to the posted solution</label></li>
-      </ul>
-    </div>
-    <div class="card day" data-day="2026-10-21">
-      <div class="dh"><h3>Wednesday</h3><span>Oct 21 · practice exam 2</span></div>
-      <ul class="plain" id="d3">
-        <li class="task"><input type="checkbox" id="p9"><label for="p9">Take Practice Exam 2 timed, grade it, read Common Mistakes</label></li>
-        <li class="task"><input type="checkbox" id="p10"><label for="p10">Work the Exam Review Day 1 and Day 2 worksheets (no-solutions versions first)</label></li>
-        <li class="task"><input type="checkbox" id="p11"><label for="p11">Finish the note sheet, page 2<small>Worked EEA example, a mod exponentiation example, a 1-1 proof and an onto proof, the countability facts.</small></label></li>
-        <li class="task"><input type="checkbox" id="p12"><label for="p12">Office hours or Piazza for anything still shaky</label></li>
-      </ul>
+
+  <div class="block">
+    <h4>Nested quantifiers: process outside in</h4>
+    <ul>
+      <li>Handle the outer quantifier first, then the inner one. A later choice may depend on everything declared before it.</li>
+      <li><span class="rule">∀x ∃y</span>: “Let x be arbitrary. Let y = (something built from x).” The y you pick can depend on x.</li>
+      <li><span class="rule">∃y ∀x</span>: the single y must work for every x. To disprove: “Let y be arbitrary. Let x = (something built from y)” that breaks it.</li>
+      <li>Order matters. ∀x ∃y (4x − y = 0) is true (y = 4x). ∃y ∀x (4x − y = 0) is false (take x = y + 1).</li>
+      <li>If your witness must be in a restricted domain (an odd integer, a positive real), say why it is. The staff deducts for skipping this.</li>
+    </ul>
+  </div>
+
+  <div class="ex"><div class="t">Prove: for all integers x there is an odd integer y with 3 | (x + y).</div>
+    <div class="pre">Let x be any integer. Consider y = 2x + 3.
+y is odd because y = 2(x + 1) + 1 and x + 1 is an integer.
+x + y = 3x + 3 = 3(x + 1), and x + 1 is an integer, so 3 | (x + y).</div>
+  </div>
+
+  <div class="watch"><h4>Watch out</h4><ul>
+    <li>Using a specific number when the statement is about every x. “Let x = 5” proves nothing about all integers.</li>
+    <li>Disproving a ∀ with a general argument. One concrete counterexample, with the arithmetic shown, is what earns the points.</li>
+    <li>Claiming “6 | 12 and 4 | 12 so 24 | 12.” y = 12 is the classic counterexample for “divisible by 4 and 6 implies divisible by 24.”</li>
+  </ul></div>
+</section>
+
+<!-- ================= L3 ================= -->
+<section id="s3">
+  <div class="sec-head"><span class="lec">Lecture 3</span><h2>Negation and proof by contrapositive</h2></div>
+  <div class="vocab"><span>negation</span><span>De Morgan's laws</span><span>contrapositive</span><span>if and only if</span></div>
+
+  <div class="block">
+    <h4>Negation rules</h4>
+    <div class="tbl"><table>
+      <thead><tr><th>Statement</th><th>Negation</th><th>Memory hook</th></tr></thead>
+      <tbody>
+        <tr><td class="m">∀x P(x)</td><td class="m">∃x ¬P(x)</td><td>One counterexample breaks a “for all”</td></tr>
+        <tr><td class="m">∃x P(x)</td><td class="m">∀x ¬P(x)</td><td>No example at all</td></tr>
+        <tr><td class="m">p ∧ q</td><td class="m">¬p ∨ ¬q</td><td>De Morgan</td></tr>
+        <tr><td class="m">p ∨ q</td><td class="m">¬p ∧ ¬q</td><td>De Morgan</td></tr>
+        <tr><td class="m">p → q</td><td class="m">p ∧ ¬q</td><td>Hypothesis holds, conclusion fails. Never another if-then.</td></tr>
+        <tr><td class="m">p ↔ q</td><td class="m">(p ∧ ¬q) ∨ (¬p ∧ q)</td><td>Exactly one side holds</td></tr>
+        <tr><td class="m">“no x has P”</td><td class="m">∃x P(x)</td><td>“No one likes tea” negates to “someone likes tea”</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li>Lecture's tip: the negation is exactly what you would need to show to disprove the statement.</li>
+      <li>Domain restrictions stay put. The negation of “for all integers a not relatively prime to m, …” starts “there exists an integer a not relatively prime to m such that …”. The restriction does not flip.</li>
+      <li>Negate layer by layer from the outside. An inner “not” cancels against the negation rather than compounding.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h4>Proof by contrapositive</h4>
+    <ul>
+      <li>“If p then q” is equivalent to “if ¬q then ¬p”. Proving the second proves the first.</li>
+      <li>Use it when the hypothesis is awkward (“x² is even”) and the conclusion is easy to assume (“x is even”), or when a direct attempt stalls after one line.</li>
+      <li>Course rule, stated on the slides: whenever you use a proof style, <b>(1) announce it and (2) write the rephrased statement</b> before any algebra.</li>
+    </ul>
+    <div class="ex"><div class="t">Prove: for all integers x, if x² is even then x is even.</div>
+      <div class="pre">We will show the contrapositive: for all integers x, if x is odd then x² is odd.
+Let x be any odd integer, so x = 2k + 1 for some integer k.
+x² = 4k² + 4k + 1 = 2(2k² + 2k) + 1. Since 2k² + 2k is an integer, x² is odd.</div>
     </div>
   </div>
-  <div class="card day" data-day="2026-10-22">
-    <div class="dh"><h3>Thursday</h3><span>Oct 22 · exam 7:00–9:00 pm</span></div>
-    <ul class="plain" id="d4">
-      <li class="task"><input type="checkbox" id="p13"><label for="p13">Light pass only: the practice problems below with solutions hidden, nothing new</label></li>
-      <li class="task"><input type="checkbox" id="p14"><label for="p14">Eat, pack the note sheet, pencils, and MCard, and get to the room by 6:45</label></li>
-      <li class="task"><input type="checkbox" id="p15"><label for="p15">In the room: MC first, then short answer, then free response. Announce every proof style you use.</label></li>
+
+  <div class="block">
+    <h4>If and only if</h4>
+    <ul>
+      <li>p ↔ q means (p → q) and (q → p). Prove both directions, labeled “(⇒)” and “(⇐)”, each by any style you like.</li>
+      <li>To disprove an iff, show one direction fails: a case with p true and q false, or p false and q true.</li>
     </ul>
   </div>
 </section>
 
-<!-- ============ TOPICS ============ -->
-<section id="topics">
-  <div class="sec-head">
-    <h2>Topic check</h2>
-    <p class="muted">Rate each learning objective. Ratings are saved in this browser.</p>
-  </div>
-  <div id="topicList" style="display:flex;flex-direction:column;gap:10px"></div>
-</section>
-
-<!-- ============ STRATEGIES ============ -->
-<section id="strategies">
-  <div class="sec-head"><h2>Proof strategies</h2><p class="muted">Process quantifiers one at a time, outside in.</p></div>
-
-  <div class="card">
-    <div class="eyebrow">The quantifier grid</div>
-    <div class="quad" style="margin-top:10px">
-      <div class="h corner"></div><div class="h">To prove</div><div class="h">To disprove</div>
-      <div class="rh">∃x P(x)</div>
-      <div>Name one specific x in the domain and verify P(x). Show it is in the domain.</div>
-      <div>Generic argument: “Let x be any element of the domain …” and show P(x) fails.</div>
-      <div class="rh">∀x P(x)</div>
-      <div>Generic argument: “Let x be an arbitrary …” Never pick a value.</div>
-      <div>Name one counterexample in the domain and verify P(x) is false there.</div>
-    </div>
-    <p class="muted" style="margin-top:10px;font-size:.9rem">A later ∃ may depend on earlier ∀ variables (“Let y = 4x”). An earlier ∃ may not depend on a later ∀. Checking examples builds intuition but is never a proof of a ∀.</p>
-  </div>
+<!-- ================= L4 ================= -->
+<section id="s4">
+  <div class="sec-head"><span class="lec">Lecture 4</span><h2>Logical equivalence and Boolean algebra</h2></div>
+  <div class="vocab"><span>truth table</span><span>¬ ∧ ∨ → ↔</span><span>logical equivalence ≡</span><span>implication breakout</span><span>distributive laws</span><span>translation</span></div>
 
   <div class="two">
-    <div class="card style-card">
-      <h3>Direct</h3>
-      <p class="when">Default. Unpack definitions, do algebra, land on the definition of the conclusion.</p>
-      <div class="tmpl">Let x be an arbitrary integer with [hypothesis].
-So x = 2k for some integer k.   ← use the definition
-… algebra …
-= 2(…). Since (…) is an integer, [conclusion].</div>
+    <div class="block">
+      <h4>Truth tables to know</h4>
+      <div class="tbl"><table>
+        <thead><tr><th>p</th><th>q</th><th>p ∧ q</th><th>p ∨ q</th><th>p → q</th><th>p ↔ q</th></tr></thead>
+        <tbody>
+          <tr><td class="c">T</td><td class="c">T</td><td class="c">T</td><td class="c">T</td><td class="c">T</td><td class="c">T</td></tr>
+          <tr><td class="c">T</td><td class="c">F</td><td class="c">F</td><td class="c">T</td><td class="c">F</td><td class="c">F</td></tr>
+          <tr><td class="c">F</td><td class="c">T</td><td class="c">F</td><td class="c">T</td><td class="c">T</td><td class="c">F</td></tr>
+          <tr><td class="c">F</td><td class="c">F</td><td class="c">F</td><td class="c">F</td><td class="c">T</td><td class="c">T</td></tr>
+        </tbody>
+      </table></div>
+      <p style="font-size:.9rem;color:var(--muted)">p → q is false only when p is true and q is false. A false hypothesis makes the implication true (“vacuously true”). ∨ is inclusive or.</p>
     </div>
-    <div class="card style-card">
-      <h3>Contrapositive</h3>
-      <p class="when">For “if p then q” when the hypothesis is harder to use than the conclusion (e.g. “x² is even” vs “x is even”).</p>
-      <div class="tmpl">We will show the contrapositive:
-“For all …, if ¬q then ¬p.”
-Let x be an arbitrary … with ¬q.
-… direct proof of ¬p …</div>
-    </div>
-    <div class="card style-card">
-      <h3>Contradiction</h3>
-      <p class="when">For “≠”, “not divisible”, “irrational”, or any claim whose negation gives you something concrete to work with.</p>
-      <div class="tmpl">Seeking contradiction, suppose the negation:
-“There exist … such that … and ¬[conclusion].”
-… derive something false (a non-integer equals an integer,
-    √2 rational, x both even and odd, a given fact violated) …
-This contradicts …, completing the proof.</div>
-    </div>
-    <div class="card style-card">
-      <h3>Cases</h3>
-      <p class="when">When the domain splits naturally (even/odd, sign, rational/irrational). Cases must cover everything; WLOG only when the cases are truly symmetric.</p>
-      <div class="tmpl">We use cases on whether x is even or odd.
-Case 1: x is even. So x = 2k …  [conclusion].
-Case 2: x is odd.  So x = 2k+1 … [conclusion].
-In every case, [conclusion].</div>
+    <div class="block">
+      <h4>Equivalence laws</h4>
+      <div class="tbl"><table>
+        <tbody>
+          <tr><td>Implication breakout</td><td class="m">p → q ≡ ¬p ∨ q</td></tr>
+          <tr><td>Contrapositive</td><td class="m">p → q ≡ ¬q → ¬p</td></tr>
+          <tr><td>De Morgan</td><td class="m">¬(p ∧ q) ≡ ¬p ∨ ¬q<br>¬(p ∨ q) ≡ ¬p ∧ ¬q</td></tr>
+          <tr><td>De Morgan, quantifiers</td><td class="m">¬∀x P ≡ ∃x ¬P<br>¬∃x P ≡ ∀x ¬P</td></tr>
+          <tr><td>Distributive</td><td class="m">p ∧ (q ∨ r) ≡ (p ∧ q) ∨ (p ∧ r)<br>p ∨ (q ∧ r) ≡ (p ∨ q) ∧ (p ∨ r)</td></tr>
+          <tr><td>iff</td><td class="m">p ↔ q ≡ (p → q) ∧ (q → p)</td></tr>
+          <tr><td>Double negation</td><td class="m">¬¬p ≡ p</td></tr>
+          <tr><td>Basic (always usable)</td><td class="m">commutative, associative, idempotent, identity (p ∧ T ≡ p), domination (p ∨ T ≡ T), complement (p ∨ ¬p ≡ T)</td></tr>
+        </tbody>
+      </table></div>
     </div>
   </div>
 
-  <div class="two">
-    <div class="card">
-      <div class="eyebrow">Negation table</div>
-      <div class="tbl"><table style="margin-top:8px">
-        <thead><tr><th>Statement</th><th>Negation</th></tr></thead>
-        <tbody class="neg">
-          <tr><td>∀x P(x)</td><td>∃x ¬P(x)</td></tr>
-          <tr><td>∃x P(x)</td><td>∀x ¬P(x)</td></tr>
-          <tr><td>p ∧ q</td><td>¬p ∨ ¬q</td></tr>
-          <tr><td>p ∨ q</td><td>¬p ∧ ¬q</td></tr>
-          <tr><td>p → q</td><td>p ∧ ¬q &nbsp;<span class="muted" style="font-family:var(--body)">(never another if-then)</span></td></tr>
-          <tr><td>p ↔ q</td><td>(p ∧ ¬q) ∨ (¬p ∧ q)</td></tr>
-          <tr><td>A ⊆ B</td><td>∃x (x ∈ A ∧ x ∉ B)</td></tr>
-        </tbody>
-      </table></div>
-      <p class="muted" style="margin-top:8px;font-size:.88rem">Tip from lecture: the negation is exactly what you would need to show to disprove the statement. Don't simplify beyond that unless asked.</p>
-    </div>
-    <div class="card">
-      <div class="eyebrow">Equivalence laws you will cite</div>
-      <div class="tbl"><table style="margin-top:8px">
-        <tbody class="neg">
-          <tr><td>Implication breakout</td><td>p → q ≡ ¬p ∨ q</td></tr>
-          <tr><td>Contrapositive</td><td>p → q ≡ ¬q → ¬p</td></tr>
-          <tr><td>De Morgan</td><td>¬(p ∧ q) ≡ ¬p ∨ ¬q, &nbsp;¬(p ∨ q) ≡ ¬p ∧ ¬q</td></tr>
-          <tr><td>De Morgan, quantifiers</td><td>¬∀x P ≡ ∃x ¬P, &nbsp;¬∃x P ≡ ∀x ¬P</td></tr>
-          <tr><td>Distributive</td><td>p ∧ (q ∨ r) ≡ (p ∧ q) ∨ (p ∧ r), and with ∧/∨ swapped</td></tr>
-          <tr><td>iff</td><td>p ↔ q ≡ (p → q) ∧ (q → p)</td></tr>
-        </tbody>
-      </table></div>
-      <p class="muted" style="margin-top:8px;font-size:.88rem">Red flag in translation problems: an implication directly inside a “there exists” using that variable is almost always the wrong translation.</p>
-    </div>
+  <div class="block">
+    <h4>Translating English to logic</h4>
+    <ul>
+      <li>“Every A is B” → <span class="rule">∀x (A(x) → B(x))</span>. A restricted domain under a ∀ becomes an implication.</li>
+      <li>“Some A is B” → <span class="rule">∃x (A(x) ∧ B(x))</span>. A restricted domain under an ∃ becomes an and.</li>
+      <li>“There is someone who knows everyone who likes 203” → <span class="rule">∃x ∀y (L(y) → K(x, y))</span>. The ∃ person is fixed first, then the ∀ ranges over the restricted group.</li>
+      <li>Lecture's red flag: an implication sitting directly inside an ∃ using the ∃ variable (“∃x (L(x) → …)”) is almost always a wrong translation. It is true as soon as one person fails the hypothesis.</li>
+      <li>“Every large enough integer has property P” → <span class="rule">∃N ∀x (x ≥ N → P(x))</span>. The threshold comes first because it must not depend on x.</li>
+      <li>“Exactly one x has P” → ∃x (P(x) ∧ ∀y (P(y) → y = x)).</li>
+    </ul>
+  </div>
+
+  <div class="ex"><div class="t">Showing equivalence with laws (Lecture 15 example)</div>
+    <div class="pre">p → (∀x ¬Q(x) ∧ ∀y ¬R(y))
+≡ p → (¬∃x Q(x) ∧ ¬∃y R(y))          De Morgan on each quantifier
+≡ p → ¬(∃x Q(x) ∨ ∃y R(y))           De Morgan on the ∧
+≡ ¬p ∨ ¬(∃x Q(x) ∨ ∃y R(y))          implication breakout
+≡ ¬(p ∧ (∃x Q(x) ∨ ∃y R(y)))         De Morgan on the ∨
+≡ ¬((p ∧ ∃x Q(x)) ∨ (p ∧ ∃y R(y)))   distribute</div>
+    <p>Name the law on every line. A truth table is the fallback for propositional (quantifier-free) equivalences.</p>
+  </div>
+
+  <div class="asks"><h4>How it shows up on exams</h4><ul>
+    <li>Multiple-answer: “which of these are equivalent to …” (can be all five, or none).</li>
+    <li>Single-answer: pick the correct translation, or the correct negation of an English sentence.</li>
+    <li>Short answer: simplify an expression citing laws, or fill a truth table.</li>
+  </ul></div>
+</section>
+
+<!-- ================= L5 ================= -->
+<section id="s5">
+  <div class="sec-head"><span class="lec">Lecture 5</span><h2>Proof by contradiction, rationals and irrationals</h2></div>
+  <div class="vocab"><span>rational</span><span>irrational</span><span>proof by contradiction</span><span>contradiction</span></div>
+
+  <div class="block">
+    <h4>The method</h4>
+    <ul>
+      <li>To prove P: assume ¬P and derive something known to be false. Then ¬P must be false, so P is true. (Logic: ¬P → F is true only if ¬P is false.)</li>
+      <li>Write “Seeking contradiction, suppose the negation: …” and <b>write the negation out explicitly</b>. For a ∀ statement that negation starts “there exist … such that …”.</li>
+      <li>End by naming the contradiction: “This contradicts that k − j is an integer,” or “that √2 is irrational,” or a fact given in the problem.</li>
+      <li>Good contradictions: an integer equals a non-integer (1/a with a &gt; 1, 1/6), a number is both even and odd, a rational number is irrational, a &lt; a.</li>
+      <li>When to use it: statements of the form “x ≠ …”, “a does not divide …”, “z is irrational”, “there is no …”. Negating these gives you an equation to work with.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h4>Rationals</h4>
+    <ul>
+      <li><b>Rational:</b> x = a/b for integers a, b with b ≠ 0. <b>Irrational:</b> not rational. Every proof uses this fraction form.</li>
+      <li>√2 is irrational may be used without proof unless the problem says otherwise. The proof: suppose √2 = a/b in lowest terms, then a² = 2b², so a is even (by the contrapositive lemma), a = 2c, so b² = 2c², so b is even, contradicting lowest terms.</li>
+      <li>“Rational + rational is rational,” “rational × rational is rational,” and “rational + irrational is irrational” must be <b>proved from a/b</b> unless the problem grants them. The practice exam key specifically flags assuming these.</li>
+      <li>Irrational + irrational can be rational (√2 + (−√2) = 0). Irrational × irrational can be rational (√2 · √2 = 2).</li>
+    </ul>
+  </div>
+
+  <div class="ex"><div class="t">Prove: for all integers a, b, 18a + 6b ≠ 1.</div>
+    <div class="pre">Seeking contradiction, suppose there exist integers a, b with 18a + 6b = 1.
+Dividing by 6: 3a + b = 1/6. But 3a + b is an integer and 1/6 is not.
+This is a contradiction, completing the proof.</div>
+  </div>
+  <div class="ex"><div class="t">Prove: if x, y are rational and x − y + 3z is irrational, then z is irrational.</div>
+    <div class="pre">Seeking contradiction, suppose x, y, z are all rational with x − y + 3z irrational.
+Write x = a/b, y = c/d, z = e/f (integers, nonzero denominators). Then
+x − y + 3z = (adf − cbf + 3bde) / (bdf), a ratio of integers with bdf ≠ 0,
+so it is rational. This contradicts that x − y + 3z is irrational.</div>
   </div>
 </section>
 
-<!-- ============ DEFINITIONS ============ -->
-<section id="definitions">
-  <div class="sec-head">
-    <h2>Definitions</h2>
-    <p class="muted"><span class="pill given">given</span> is printed on the exam. <span class="pill sheet">note sheet</span> is not, so write it down.</p>
+<!-- ================= L6 ================= -->
+<section id="s6">
+  <div class="sec-head"><span class="lec">Lecture 6 (and 7)</span><h2>Proof by cases, WLOG, primes</h2></div>
+  <div class="vocab"><span>proof by cases</span><span>without loss of generality</span><span>prime</span><span>infinitely many primes</span></div>
+
+  <div class="block">
+    <h4>Cases</h4>
+    <ul>
+      <li>Split the domain into cases that together cover everything (even/odd; negative/zero/positive; rational/irrational for each of two variables; remainder 0, 1, 2 mod 3).</li>
+      <li>Say “we use cases on …”, label each case, and finish each one with the exact form the conclusion needs (for “even”, literally 2·(integer)).</li>
+      <li>Close with “in every case, …”.</li>
+      <li>Cases combine with the other styles: contrapositive then cases (Lecture 15 Proof 5), contradiction then cases.</li>
+    </ul>
   </div>
-  <div class="card">
-    <div class="defs">
-      <div class="def"><b>even / odd <span class="pill given">given</span></b><span>x = 2k / x = 2k + 1 for some integer k</span></div>
-      <div class="def"><b>d | n <span class="pill given">given</span></b><span>there is an integer k with dk = n</span></div>
-      <div class="def"><b>rational <span class="pill given">given</span></b><span>r = a/b for integers a, b (b ≠ 0); otherwise irrational</span></div>
-      <div class="def"><b>prime <span class="pill given">given</span></b><span>no integer d with 1 &lt; d &lt; n divides n</span></div>
-      <div class="def"><b>ℕ, ℤ, ℤ⁺, ℝ, ∅ <span class="pill given">given</span></b><span>ℕ includes 0 in this course; ℤ⁺ = {1, 2, 3, …}</span></div>
-      <div class="def"><b>A ∪ B, A ∩ B, Ā, A × B, P(S) <span class="pill given">given</span></b><span>x ∈ A − B means x ∈ A and x ∉ B; P(S) is the set of all subsets; |P(S)| = 2<sup>|S|</sup></span></div>
-      <div class="def"><b>A ⊆ B <span class="pill sheet">note sheet</span></b><span>∀x (x ∈ A → x ∈ B). To prove: let x ∈ A be arbitrary, show x ∈ B. Set equality: prove both directions.</span></div>
-      <div class="def"><b>a ≡ b (mod m) <span class="pill sheet">note sheet</span></b><span>m | (a − b), equivalently a = b + km, equivalently same remainder. Add and multiply congruences freely; divide only by multiplying by an inverse.</span></div>
-      <div class="def"><b>inverse mod m <span class="pill sheet">note sheet</span></b><span>b with ab ≡ 1 (mod m); exists iff gcd(a, m) = 1. Find with EEA for big m, guess-and-check for small m.</span></div>
-      <div class="def"><b>Fermat's Little Theorem <span class="pill sheet">note sheet</span></b><span>p prime, p ∤ a: a<sup>p−1</sup> ≡ 1 (mod p). Reduce exponents mod p − 1.</span></div>
-      <div class="def"><b>function f : A → B <span class="pill sheet">note sheet</span></b><span>every a ∈ A maps to exactly one b ∈ B. Range ⊆ codomain.</span></div>
-      <div class="def"><b>one-to-one <span class="pill sheet">note sheet</span></b><span>∀a₁, a₂ ∈ A, f(a₁) = f(a₂) → a₁ = a₂. Proof: assume f(a₁) = f(a₂), derive a₁ = a₂. Disproof: two distinct inputs, same output.</span></div>
-      <div class="def"><b>onto <span class="pill sheet">note sheet</span></b><span>∀b ∈ B ∃a ∈ A, f(a) = b. Proof: let b be arbitrary, construct a, show a ∈ A, substitute back. Disproof: one specific b with no preimage.</span></div>
-      <div class="def"><b>bijection, inverse <span class="pill sheet">note sheet</span></b><span>one-to-one and onto; f⁻¹ exists iff f is a bijection</span></div>
-      <div class="def"><b>|A| ≤ |B|, |A| = |B| <span class="pill sheet">note sheet</span></b><span>one-to-one f : A → B exists / bijection exists. Schröder–Bernstein: one-to-one both ways gives a bijection.</span></div>
-      <div class="def"><b>countable <span class="pill sheet">note sheet</span></b><span>|S| ≤ |ℤ⁺|: finite or listable. ℕ, ℤ, ℚ, ℤ × ℤ countable; subsets, finite unions and finite products of countable sets are countable. ℝ, [0, 1], any interval, ℝ − ℤ uncountable (diagonalization).</span></div>
-    </div>
-    <p class="muted" style="margin-top:12px;font-size:.88rem">Facts you may use without proof: laws of algebra; sum, difference, and product of integers are integers; a square of a real is non-negative; countability of any set shown in lecture. “Rational + rational is rational” must be proved from a/b unless the problem grants it.</p>
+
+  <div class="block">
+    <h4>WLOG</h4>
+    <ul>
+      <li>“Without loss of generality, suppose x is even” is allowed only when the cases are identical by symmetry, meaning x and y play interchangeable roles in <i>every</i> part of the statement.</li>
+      <li>Practice exam key: in a² − 4b the variables are not symmetric, so “a even, b odd” and “a odd, b even” are different cases. Write both.</li>
+      <li>Using WLOG is never required. Writing every case is always acceptable.</li>
+    </ul>
   </div>
-</section>
 
-<!-- ============ PRACTICE ============ -->
-<section id="practice">
-  <div class="sec-head">
-    <h2>Practice</h2>
-    <p class="muted">The Lecture 15 review set. Try each before opening the solution.</p>
+  <div class="block">
+    <h4>Primes</h4>
+    <ul>
+      <li><b>Prime:</b> an integer n &gt; 1 with no divisor d satisfying 1 &lt; d &lt; n. The exam gives this definition.</li>
+      <li>Euclid's argument (seen in lecture and HW 3): suppose finitely many primes p₁, …, pₙ. Let N = p₁p₂⋯pₙ + 1. No pᵢ divides N (remainder 1), so N has a prime factor not on the list. Contradiction. Uses the fact that if a | b and a &gt; 1 then a ∤ (b + 1).</li>
+    </ul>
   </div>
-  <div style="display:flex;flex-direction:column;gap:10px">
 
-  <details class="prob"><summary><span class="tag">MAMC · quantifiers</span><div class="q"><b>Which are true? Domain ℝ.</b>
-    <ol class="opts" type="a"><li>∃x ∀y &nbsp;x<sup>y</sup> = −1</li><li>∀x ∃y &nbsp;x·y = 1</li><li>∀x (x ≠ 0 → ∃y &nbsp;x<sup>y</sup> = 1)</li><li>∃x ∃y (x² ≠ y² ∧ ∀z &nbsp;xz − yz = 0)</li><li>∀x ∀y (x − y = y − x → x = y)</li></ol></div><span class="show"></span></summary>
-    <div class="sol"><p class="ans">c and e.</p>
-      <p>(a) False: for any x take y = 2, then x² ≥ 0 ≠ −1. (b) False: x = 0 is a counterexample since 0·y = 0 for every y. (c) True: let x ≠ 0, take y = 0, then x⁰ = 1. (d) False: given x² ≠ y², take z = x + y; then xz − yz = (x + y)(x − y) = x² − y² ≠ 0. (e) True: x − y = y − x gives 2x = 2y, so x = y.</p>
-      <p class="note">Disproving a ∀ ∃: fix an arbitrary first variable, then your choice of the second may depend on it.</p></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">Short answer · negation</span><div class="q"><b>Write the negation of each.</b>
-    <ol class="opts" type="a"><li>For all integers x, if x is prime then x is not divisible by 7.</li><li>For all reals x, y: x + y is even iff x − y is even.</li><li>For all integers a not relatively prime to m, ax ≡ c (mod m) has no solutions or multiple solutions.</li><li>There exists an integer x such that for all integers y, not [xy &gt; 0 or xy &lt; 0].</li></ol></div><span class="show"></span></summary>
-    <div class="sol">
-      <p>(a) There exists an integer x such that x is prime and x is divisible by 7.</p>
-      <p>(b) There exist reals x, y such that (x + y is even and x − y is odd) or (x + y is odd and x − y is even).</p>
-      <p>(c) There exists an integer a not relatively prime to m such that ax ≡ c (mod m) has at least one solution and does not have multiple solutions.</p>
-      <p>(d) For all integers x there exists an integer y such that xy &gt; 0 or xy &lt; 0.</p>
-      <p class="note">The “not relatively prime” in (c) is part of the domain restriction, so it does not flip. In (d) the inner “not” cancels against the negation.</p></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">Short answer · rephrasing</span><div class="q"><b>Write a quantified proposition equivalent to “Every large enough integer is the sum of three squares.”</b></div><span class="show"></span></summary>
-    <div class="sol"><p class="ans">∃N ∀x [x ≥ N → ∃a ∃b ∃c &nbsp;x = a² + b² + c²], with all variables integers.</p>
-      <p class="note">“Large enough” means there is a threshold N. The threshold comes first because it must not depend on x.</p></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">SAMC · translation</span><div class="q"><b>L(x): x likes EECS 203. K(x, y): x knows y. Which says “There is someone who knows everyone who likes EECS 203”?</b>
-    <ol class="opts" type="a"><li>∀x ∃y [L(x) → K(y, x)]</li><li>∀x ∃y [L(x) ↔ K(y, x)]</li><li>∀x ∃y [L(x) ∧ K(y, x)]</li><li>∃x ∀y [L(y) → K(x, y)]</li><li>∃x ∀y [L(y) ∧ K(x, y)]</li></ol></div><span class="show"></span></summary>
-    <div class="sol"><p class="ans">d.</p>
-      <p>“There is someone” is the outer ∃. “Everyone who likes 203” is a ∀ with a restricted domain, which becomes an implication inside the ∀. (a) says everyone who likes 203 is known by someone, possibly a different someone each time. (e) says everyone likes 203 and one person knows them all.</p></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">MAMC · equivalence</span><div class="q"><b>Which are equivalent to p → (∀x ¬Q(x) ∧ ∀y ¬R(y))?</b>
-    <ol class="opts" type="a"><li>p → (¬∃x Q(x) ∧ ¬∃y R(y))</li><li>p → ¬(∃x Q(x) ∨ ∃y R(y))</li><li>¬p ∨ ¬(∃x Q(x) ∨ ∃y R(y))</li><li>¬(p ∧ (∃x Q(x) ∨ ∃y R(y)))</li><li>¬((p ∧ ∃x Q(x)) ∨ (p ∧ ∃y R(y)))</li></ol></div><span class="show"></span></summary>
-    <div class="sol"><p class="ans">All five.</p>
-      <div class="step">(a) De Morgan on each quantifier
-(b) De Morgan on the inner ∧
-(c) implication breakout
-(d) De Morgan on the outer ∨
-(e) distribute p over the ∨</div></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">Proof 1 · three styles</span><div class="q"><b>Prove or disprove: for all integers x, y, if 3x − 4y is even then x is even.</b></div><span class="show"></span></summary>
-    <div class="sol"><p class="ans">True. Any of the three styles works; write whichever you need practice with.</p>
-      <div class="step">Direct. Let x, y be integers with 3x − 4y even, so 3x − 4y = 2k.
-Then x = 2k + 4y − 2x = 2(k + 2y − x). Since k + 2y − x is an integer, x is even.
-
-Contrapositive. We show: for all integers x, y, if x is odd then 3x − 4y is odd.
-Let x be odd, x = 2k + 1. Then 3x − 4y = 6k + 3 − 4y = 2(3k − 2y + 1) + 1, odd.
-
-Contradiction. Suppose there exist integers x, y with 3x − 4y even and x odd.
-x = 2k + 1 gives 3x − 4y = 2(3k − 2y + 1) + 1, which is odd. Contradiction.</div>
-      <p class="note">Each version announces the style and writes the rephrased statement before any algebra. That is where rubric points live.</p></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">Proof 2 · irrationals</span><div class="q"><b>For all reals x, y, z: if x − y + 3z is irrational and x, y are rational, then z is irrational.</b></div><span class="show"></span></summary>
-    <div class="sol">
-      <div class="step">Seeking contradiction, suppose there are reals x, y, z with x − y + 3z irrational,
-x and y rational, and z rational. Write x = a/b, y = c/d, z = e/f with integers
-a..f and b, d, f ≠ 0. Then
-  x − y + 3z = (adf − cbf + 3bde) / (bdf),
-a ratio of integers with nonzero denominator, so rational. This contradicts
-that x − y + 3z is irrational, completing the proof.</div>
-      <p class="note">Do not write “rational minus rational is rational” unless the problem grants it. Show the fraction.</p></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">Proof 3 · divisibility</span><div class="q"><b>Prove: for all integers a, b, if a | b and a &gt; 1, then a does not divide b + 1.</b></div><span class="show"></span></summary>
-    <div class="sol">
-      <div class="step">Contradiction. Suppose there exist integers a, b with a | b, a &gt; 1, and a | (b + 1).
-Then b = aj and b + 1 = ak for integers j, k. Subtracting, 1 = a(k − j), so
-k − j = 1/a. But k − j is an integer and 1/a is not (since a &gt; 1). Contradiction.</div>
-      <div class="step">Direct. Let a | b with a &gt; 1, so b = am. Then b + 1 = am + 1 = a(m + 1/a).
-Since a &gt; 1, 1/a is not an integer, so m + 1/a is not an integer, so a ∤ (b + 1).</div></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">Proof 4 · cases</span><div class="q"><b>Prove: for all integers x, 3x(x + 5) is even.</b></div><span class="show"></span></summary>
-    <div class="sol">
-      <div class="step">Let x be any integer. We use cases on the parity of x.
-Case 1: x even, x = 2k. Then 3x(x + 5) = 2 · [3k(2k + 5)], and 3k(2k + 5) is an integer.
-Case 2: x odd, x = 2k + 1. Then x + 5 = 2k + 6 = 2(k + 3), so
-        3x(x + 5) = 2 · [3(2k + 1)(k + 3)], an integer times 2.
+  <div class="ex"><div class="t">Prove: for all integers x, 3x(x + 5) is even.</div>
+    <div class="pre">Let x be any integer. We use cases on the parity of x.
+Case 1: x even, x = 2k. Then 3x(x + 5) = 2·[3k(2k + 5)], an integer times 2.
+Case 2: x odd, x = 2k + 1. Then x + 5 = 2(k + 3), so 3x(x + 5) = 2·[3(2k + 1)(k + 3)].
 In both cases 3x(x + 5) is even.</div>
-      <p class="note">Say “we use cases” and label them. Both cases must end with the exact form 2·(integer).</p></div>
-  </details>
+  </div>
 
-  <details class="prob"><summary><span class="tag">Proof 5 · contrapositive + cases</span><div class="q"><b>Reals x, y. Prove: if x − 2y is rational and xy is irrational, then x and y are both irrational.</b> You may assume sums and products of rationals are rational, and a rational plus or times an irrational is irrational.</div><span class="show"></span></summary>
-    <div class="sol">
-      <div class="step">We prove the contrapositive: if x is rational or y is rational, then
-x − 2y is irrational or xy is rational.      (De Morgan on both sides)
-Case 1: x rational, y irrational. Then 2y is irrational and x − 2y is irrational.
-Case 2: x irrational, y rational. Then 2y is rational and x − 2y is irrational.
-Case 3: x, y both rational. Then xy is rational.
-In every case the conclusion holds.</div>
-      <p class="note">Negating “both irrational” gives an “or”, which is why the cases appear. All three cases are needed; they are not symmetric.</p></div>
-  </details>
+  <div class="watch"><h4>Watch out</h4><ul>
+    <li>Missing a case (forgetting zero when splitting on sign, or only doing x even).</li>
+    <li>Ending a case with “so it's even” without displaying the 2·(integer) form.</li>
+    <li>Combinatorial game theory from Lecture 7 is bonus material and is <b>not</b> on Exam 1.</li>
+  </ul></div>
+</section>
 
-  <details class="prob"><summary><span class="tag">SAMC · mod calculation</span><div class="q"><b>Find 4<sup>43</sup> mod 15.</b> <span class="mono">a) 1 &nbsp;b) 3 &nbsp;c) 4 &nbsp;d) 8 &nbsp;e) 12</span></div><span class="show"></span></summary>
-    <div class="sol"><p class="ans">c) 4.</p>
-      <div class="step">4² = 16 ≡ 1 (mod 15)
-4⁴³ = 4 · 4⁴² = 4 · (4²)²¹ ≡ 4 · 1²¹ = 4</div>
-      <p class="note">Look for a small power that is ≡ 1 or ≡ −1 first. If none, use repeated squaring and reduce after every step.</p></div>
-  </details>
+<!-- ================= L8 ================= -->
+<section id="s8">
+  <div class="sec-head"><span class="lec">Lecture 8</span><h2>Sets</h2></div>
+  <div class="vocab"><span>set-builder notation</span><span>cardinality |S|</span><span>∪ ∩ − complement</span><span>⊆ subset</span><span>⊊ proper subset</span><span>power set P(S)</span><span>Cartesian product ×</span><span>disjoint</span><span>partition</span><span>set equality</span></div>
 
-  <details class="prob"><summary><span class="tag">Short answer · EEA</span><div class="q"><b>Use the Extended Euclidean Algorithm to find the smallest nonnegative x with 15x ≡ 2 (mod 34).</b></div><span class="show"></span></summary>
-    <div class="sol"><p class="ans">x ≡ 16 (mod 34).</p>
-      <div class="step">Down:   34 = 2·15 + 4      (1)  4 = 34 − 2·15
-        15 = 3·4 + 3        (2)  3 = 15 − 3·4
-         4 = 1·3 + 1        (3)  1 = 4 − 3
-Back up: 1 = 4 − 3
+  <div class="block">
+    <h4>Definitions</h4>
+    <ul>
+      <li>Sets are unordered and have no repeats: |{1, 1, 2, 3}| = 3. Elements can be anything, including sets: |{a, {e}, {i, o}, u}| = 4.</li>
+      <li><b>Set-builder:</b> {x ∈ ℤ | x is odd and x is prime}. Left of the bar is the domain, right of the bar is the predicate. Alternate form {2k | k ∈ ℤ}.</li>
+      <li><b>Union</b> x ∈ S ∪ T iff x ∈ S or x ∈ T. <b>Intersection</b> x ∈ S ∩ T iff x ∈ S and x ∈ T. <b>Difference</b> x ∈ S − T iff x ∈ S and x ∉ T. <b>Complement</b> S̄ = U − S, relative to a universe U.</li>
+      <li><b>Subset</b> S ⊆ T iff ∀x (x ∈ S → x ∈ T). ∅ ⊆ S for every S. S ⊆ S. <b>Proper subset</b> S ⊊ T means S ⊆ T and S ≠ T.</li>
+      <li><b>Equality</b> S = T iff S ⊆ T and T ⊆ S. This is how set equality is proved: two subset proofs.</li>
+      <li><b>Power set</b> P(S) is the set of all subsets of S. |P(S)| = 2<sup>|S|</sup>. P({1, 2}) = {∅, {1}, {2}, {1, 2}}. ∅ ∈ P(S) always, so P(S) is never empty.</li>
+      <li><b>Cartesian product</b> A × B = {(a, b) | a ∈ A, b ∈ B}, ordered pairs. |A × B| = |A|·|B|. A × B × C gives triples.</li>
+      <li><b>Disjoint:</b> S ∩ T = ∅. <b>Partition</b> of S: nonempty pieces, pairwise disjoint, whose union is S.</li>
+      <li>Set operations mirror logic: ∪ is ∨, ∩ is ∧, complement is ¬, ⊆ is →. So the set identities (De Morgan: complement of A ∪ B is Ā ∩ B̄, distributive, etc.) are the logic laws with symbols swapped.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h4>How to write a subset proof</h4>
+    <div class="pre">Let x be an arbitrary element with x ∈ [left side].
+   … unpack with the definitions of ∪, ∩, −, ⊆ one step at a time,
+     citing “by definition of union” etc.; split into cases at an “or” …
+So x ∈ [right side]. Therefore [left] ⊆ [right] by definition of subset.</div>
+    <ul>
+      <li>If the problem says “using only definitions,” you may not cite set identities or logical equivalence laws. Everything goes through element-chasing.</li>
+      <li>For a disproof of a set statement, give specific small sets (like A = {1}, B = {1, 2}) and show the failure concretely.</li>
+    </ul>
+  </div>
+
+  <div class="ex"><div class="t">B ⊆ C. Prove (C − B) ∪ (B − A) ⊆ C.</div>
+    <div class="pre">Let x ∈ (C − B) ∪ (B − A). By definition of union, x ∈ C − B or x ∈ B − A.
+Case 1: x ∈ C − B. Then x ∈ C and x ∉ B, so x ∈ C.
+Case 2: x ∈ B − A. Then x ∈ B. Since B ⊆ C, x ∈ C by definition of subset.
+In every case x ∈ C, so (C − B) ∪ (B − A) ⊆ C.</div>
+  </div>
+
+  <div class="watch"><h4>Watch out</h4><ul>
+    <li>A ⊄ C means <i>some</i> element of A is outside C, not that all of A is outside C.</li>
+    <li>∈ versus ⊆: 1 ∈ {1, 2} but {1} ⊆ {1, 2}. ∅ ⊆ S always; ∅ ∈ S only if S lists ∅ as an element.</li>
+    <li>|{∅}| = 1, |∅| = 0. |P(∅)| = 1.</li>
+    <li>Disproving “for all sets A, B, …” needs one concrete counterexample, not an argument about arbitrary sets.</li>
+  </ul></div>
+</section>
+
+<!-- ================= L9 ================= -->
+<section id="s9">
+  <div class="sec-head"><span class="lec">Lecture 9</span><h2>Modular arithmetic</h2></div>
+  <div class="vocab"><span>a ≡ b (mod m)</span><span>a mod m</span><span>substitution laws</span><span>fast modular exponentiation</span></div>
+
+  <div class="block">
+    <h4>Two meanings of “mod”</h4>
+    <ul>
+      <li><b>Equivalence mod</b> <span class="rule">a ≡ b (mod m)</span> is a predicate on three integers. Three equivalent definitions, use whichever fits the proof: m | (a − b); a = b + km for some integer k; a and b have the same remainder on division by m.</li>
+      <li><b>Remainder mod</b> <span class="rule">a mod m</span> is the integer in {0, 1, …, m − 1} left over when a is divided by m. Negative numbers: −1 mod 3 = 2.</li>
+      <li>“(mod m)” on the right modifies the whole line, not just the right side. Every integer is equivalent to infinitely many others: … ≡ x − m ≡ x ≡ x + m ≡ …</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h4>Rules</h4>
+    <ul>
+      <li><b>Substitution:</b> if a ≡ b (mod m) then a + c ≡ b + c and ac ≡ bc (mod m). So in any sum or product you may replace a number by anything equivalent to it, at any step. Reduce early and often.</li>
+      <li>Hence a<sup>n</sup> ≡ b<sup>n</sup> when a ≡ b. The reverse is false: 1² ≡ 4² (mod 5) but 1 ≢ 4.</li>
+      <li>You may <b>not</b> divide both sides, and you may <b>not</b> reduce an exponent mod m. (2<sup>101</sup> mod 7 is not 2³ just because 101 ≡ 3 mod 7. The exponent reduces by Fermat, below, mod 6.)</li>
+      <li>In proofs, “x ≡ 2 (mod 3)” unpacks to “x = 3k + 2 for some integer k”, and you finish with algebra.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h4>Computing big powers</h4>
+    <ul>
+      <li>First look for a small power that is ≡ 1 or ≡ −1. Then peel it off: 4<sup>43</sup> mod 15: 4² = 16 ≡ 1, so 4<sup>43</sup> = 4 · (4²)<sup>21</sup> ≡ 4 · 1 = 4.</li>
+      <li>Otherwise <b>repeated squaring</b>: compute a¹, a², a⁴, a⁸, … reducing mod m after each square, write the exponent in binary, multiply the needed pieces, reduce.</li>
+    </ul>
+    <div class="ex"><div class="t">Lecture 9 example: 592 · (1033 + 734)² mod 5</div>
+      <div class="pre">592 ≡ 2, 1033 ≡ 3, 734 ≡ 4 (mod 5)
+592 · (1033 + 734)² ≡ 2 · (3 + 4)² ≡ 2 · 7² ≡ 2 · 2² = 8 ≡ 3</div>
+    </div>
+  </div>
+
+  <div class="asks"><h4>How it shows up on exams</h4><ul>
+    <li>Single-answer: compute a<sup>n</sup> mod m or a messy expression mod m.</li>
+    <li>Multiple-answer: “which of these guarantee a ≡ b (mod m)?” (adding the same c: yes; multiplying by 2: no unless 2 is invertible; squaring: no; a<sup>m−1</sup> ≡ b<sup>m−1</sup> with m prime: no.)</li>
+    <li>Proofs: parity or divisibility by cases on remainder, e.g. n² mod 4 is 0 or 1.</li>
+  </ul></div>
+</section>
+
+<!-- ================= L10 ================= -->
+<section id="s10">
+  <div class="sec-head"><span class="lec">Lecture 10</span><h2>Modular inverses, gcd, Extended Euclidean Algorithm, Fermat</h2></div>
+  <div class="vocab"><span>modular inverse</span><span>gcd</span><span>relatively prime</span><span>Extended Euclidean Algorithm</span><span>Fermat's Little Theorem</span><span>linear congruence</span></div>
+
+  <div class="block">
+    <h4>Inverses</h4>
+    <ul>
+      <li>The <b>inverse</b> of a mod m is the integer b in {0, …, m − 1} with ab ≡ 1 (mod m). Written a⁻¹.</li>
+      <li><b>Theorem:</b> a has an inverse mod m iff gcd(a, m) = 1 (a and m are relatively prime). So mod a prime p, every a ≢ 0 has an inverse.</li>
+      <li><b>Linear congruence</b> ax ≡ c (mod m): exactly one solution in {0, …, m − 1} iff gcd(a, m) = 1. Otherwise either no solutions (2x ≡ 5 mod 15) or several (3x ≡ 6 mod 15 has x = 2, 7, 12). You will not be asked to find the several.</li>
+      <li>Solve by multiplying <b>both sides</b> by a⁻¹: 3x ≡ 2 (mod 10), 3⁻¹ = 7, so x ≡ 14 ≡ 4. Check: 3·4 = 12 ≡ 2.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h4>Finding the inverse</h4>
+    <ul>
+      <li><b>Guess and check</b> for small m: try a·1, a·2, … until you hit 1.</li>
+      <li><b>Educated guess</b> for larger m: does a divide m + 1? 2m + 1? 3m + 1? … (4 divides 100 = 3·33 + 1, so 4⁻¹ ≡ 25 mod 33.)</li>
+      <li><b>Extended Euclidean Algorithm</b> for anything: run Euclid down to 1 recording each remainder as an equation, then substitute back up to write 1 = s·m + t·a. Then t is the inverse of a (reduce t into {0, …, m − 1} if asked). Based on gcd(a, b) = gcd(a, b − a), or more quickly gcd(a, b) = gcd(b, a mod b).</li>
+    </ul>
+    <div class="ex"><div class="t">Solve 15x ≡ 2 (mod 34).</div>
+      <div class="pre">Down:   34 = 2·15 + 4      so 4 = 34 − 2·15
+        15 = 3·4 + 3        so 3 = 15 − 3·4
+         4 = 1·3 + 1        so 1 = 4 − 3            gcd = 1, inverse exists
+Up:      1 = 4 − 3
            = 4 − (15 − 3·4) = 4·4 − 15
            = 4·(34 − 2·15) − 15 = 4·34 − 9·15
-So −9·15 ≡ 1 (mod 34): the inverse of 15 is −9 ≡ 25.
-Multiply BOTH sides of 15x ≡ 2 by −9:  x ≡ −18 ≡ 16.
+So −9·15 ≡ 1 (mod 34): 15⁻¹ ≡ −9 ≡ 25.
+Multiply both sides: x ≡ −9·2 = −18 ≡ 16 (mod 34).
 Check: 15·16 = 240 = 7·34 + 2 ✓</div>
-      <p class="note">Most common lost points: stopping at the inverse instead of solving for x, multiplying only one side, or a sign slip on the way back up. Always check.</p></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">Free response · sets</span><div class="q"><b>Sets A, B, C with B ⊆ C. Prove (C − B) ∪ (B − A) ⊆ C using only definitions, no set identities.</b></div><span class="show"></span></summary>
-    <div class="sol">
-      <div class="step">Let x be an arbitrary element with x ∈ (C − B) ∪ (B − A).
-By definition of union, x ∈ C − B or x ∈ B − A.
-Case 1: x ∈ C − B. By definition of set minus, x ∈ C and x ∉ B. So x ∈ C.
-Case 2: x ∈ B − A. Then x ∈ B and x ∉ A. Since B ⊆ C and x ∈ B, x ∈ C by
-        definition of subset.
-In every case x ∈ C. Therefore (C − B) ∪ (B − A) ⊆ C by definition of subset.</div>
-      <p class="note">Subset proofs always start “Let x be arbitrary, suppose x ∈ left side” and end “so x ∈ right side”. Cite the definition at each step.</p></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">MAMC · sets and functions</span><div class="q"><b>A, B sets in universe U. f : P(A) × P(B) → P(U), f(S, T) = S ∪ T. Which could be true for some choice of A, B, U?</b>
-    <ol class="opts" type="a"><li>f is one-to-one</li><li>f is not one-to-one</li><li>f is onto</li><li>f is not onto</li><li>f has an empty domain</li></ol></div><span class="show"></span></summary>
-    <div class="sol"><p class="ans">a, b, c, d. Not e.</p>
-      <p>(a, c) A = {280}, B = {203}, U = {280, 203}: the four inputs map to ∅, {280}, {203}, {280, 203}, a bijection. (b) A = B = {203}: f(∅, {203}) = f({203}, ∅). (d) A = B = {203}, U = {203, 280}: nothing maps to {280}. (e) ∅ is a subset of every set, so (∅, ∅) is always in the domain.</p></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">Short answer · 1-1 and onto</span><div class="q"><b>(a) f : ℝ − {−5/4} → ℝ, f(x) = 3 / (4x + 5). Prove or disprove f is one-to-one. &nbsp;(b) g : ℝ⁺ → ℝ, g(x) = 3x³ + 9. Prove or disprove g is onto.</b></div><span class="show"></span></summary>
-    <div class="sol">
-      <div class="step">(a) One-to-one. Let x₁, x₂ ∈ ℝ − {−5/4} with f(x₁) = f(x₂).
-    3/(4x₁ + 5) = 3/(4x₂ + 5). Multiply both sides by (4x₁ + 5)(4x₂ + 5):
-    3(4x₂ + 5) = 3(4x₁ + 5)  →  4x₂ = 4x₁  →  x₁ = x₂.</div>
-      <div class="step">(b) Not onto. Consider y = 6. Suppose some x ∈ ℝ⁺ has g(x) = 6.
-    Then 3x³ + 9 = 6, x³ = −1, x = −1, which is not positive. So no preimage exists.</div>
-      <p class="note">Name a specific y for the disproof. For an onto proof, after solving for x you must show x is in the domain and substitute back.</p></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">MAMC · composition</span><div class="q"><b>g : A → B, f : B → C, and h(x) = f(g(x)) is a bijection. Which are guaranteed?</b>
-    <ol class="opts" type="a"><li>g is onto</li><li>f is onto</li><li>g is one-to-one</li><li>f is one-to-one</li></ol></div><span class="show"></span></summary>
-    <div class="sol"><p class="ans">b and c.</p>
-      <div class="step">(b) Let c ∈ C. Since h is onto, some a ∈ A has f(g(a)) = c. Let b = g(a) ∈ B.
-    Then f(b) = c. So f is onto.
-(c) Suppose g(a₁) = g(a₂). Apply f: f(g(a₁)) = f(g(a₂)), i.e. h(a₁) = h(a₂).
-    Since h is one-to-one, a₁ = a₂. So g is one-to-one.
-Counterexample to (a), (d): A = {a}, B = {b₁, b₂}, C = {c}, g(a) = b₁,
-    f(b₁) = f(b₂) = c. h is a bijection, g misses b₂, f is not one-to-one.</div></div>
-  </details>
-
-  <details class="prob"><summary><span class="tag">MAMC · countability</span><div class="q"><b>Which are countably infinite?</b>
-    <ol class="opts" type="a"><li>ℝ − ℤ</li><li>ℝ − {x ∈ ℝ | |x| &gt; 10}</li><li>ℚ ∪ (ℤ × ℤ × ℤ)</li><li>ℚ⁺ − ℤ</li><li>ℤ ∩ (ℤ × ℤ)</li></ol></div><span class="show"></span></summary>
-    <div class="sol"><p class="ans">c and d.</p>
-      <p>(a) Removing countably many points from ℝ leaves it uncountable. (b) This is [−10, 10], an interval, uncountable. (c) Union of two countable sets. (d) A subset of ℚ, infinite. (e) Integers and ordered pairs share no elements, so the intersection is ∅, finite.</p>
-      <p class="note">“Countable” includes finite. “Countably infinite” does not.</p></div>
-  </details>
-
+    </div>
   </div>
+
+  <div class="block">
+    <h4>Fermat's Little Theorem</h4>
+    <ul>
+      <li>For a prime p and any integer a: a<sup>p</sup> ≡ a (mod p). If also p ∤ a: <span class="rule">a<sup>p−1</sup> ≡ 1 (mod p)</span>.</li>
+      <li>Use it to shrink exponents <b>mod p − 1</b>: 2<sup>101</sup> mod 7: 2⁶ ≡ 1, 101 = 6·16 + 5, so 2<sup>101</sup> ≡ 2⁵ = 32 ≡ 4.</li>
+      <li>Only valid when the modulus is prime and p ∤ a. For a composite modulus, look for a power ≡ 1 by hand instead.</li>
+      <li>HW 5 proved it: the sets {1, …, p − 1} and {a·1 mod p, …, a·(p − 1) mod p} are the same, so their products agree, giving (p − 1)! ≡ a<sup>p−1</sup>(p − 1)! and cancelling the invertible (p − 1)!.</li>
+    </ul>
+  </div>
+
+  <div class="watch"><h4>Watch out (all from the practice exam keys)</h4><ul>
+    <li>Stopping at the inverse. “x ≡ −9” is the inverse of 15, not the solution. Multiply both sides of the original congruence by it.</li>
+    <li>Multiplying one side by the inverse and the other by the original coefficient.</li>
+    <li>Arithmetic on the way back up: 11 − 2(27 − 2·11) is 5·11 − 2·27, not 3·11 − 2·27. Keep each line in the form (coefficient)·m + (coefficient)·a.</li>
+    <li>Sign slips. Always check the final x by plugging back in.</li>
+    <li>Reducing an exponent mod m instead of mod p − 1.</li>
+  </ul></div>
 </section>
 
-<!-- ============ MISTAKES ============ -->
-<section id="mistakes">
-  <div class="sec-head">
-    <h2>Common mistakes</h2>
-    <p class="muted">Collected from the staff notes in both practice exam solution keys.</p>
+<!-- ================= L11 ================= -->
+<section id="s11">
+  <div class="sec-head"><span class="lec">Lecture 11</span><h2>Functions and their properties</h2></div>
+  <div class="vocab"><span>function f : A → B</span><span>domain</span><span>codomain</span><span>range f(A)</span><span>one-to-one (injective)</span><span>onto (surjective)</span><span>bijection</span><span>composition</span><span>inverse function</span></div>
+
+  <div class="block">
+    <h4>Definitions</h4>
+    <ul>
+      <li>f : A → B is a <b>function</b> iff every element of A maps to <b>exactly one</b> element of B. Not a function: f(x) = 1/x on ℝ (0 has no output); “parent of x” (two outputs). Fine: a constant function, or a codomain element hit many times or never.</li>
+      <li><b>Domain</b> A: inputs. <b>Codomain</b> B: allowed outputs. <b>Range</b> f(A) ⊆ B: outputs actually hit.</li>
+      <li><b>Onto:</b> <span class="rule">∀b ∈ B ∃a ∈ A, f(a) = b</span>. Every codomain element is hit at least once. Range equals codomain.</li>
+      <li><b>One-to-one:</b> <span class="rule">∀a₁, a₂ ∈ A, f(a₁) = f(a₂) → a₁ = a₂</span>. Every codomain element is hit at most once. Contrapositive form: a₁ ≠ a₂ → f(a₁) ≠ f(a₂), which is the form to use for disproofs.</li>
+      <li><b>Bijection:</b> onto and one-to-one. Every codomain element hit exactly once. f⁻¹ : B → A exists iff f is a bijection, and f⁻¹(b) = a iff f(a) = b.</li>
+      <li>Changing the domain or codomain changes the answer: x² is not onto ℝ, is onto ℝ≥0, is one-to-one on ℝ⁺ but not on ℝ.</li>
+    </ul>
   </div>
-  <div class="mist">
-    <div class="card"><h3>Quantifiers and disproofs</h3><ul>
-      <li>Trying to disprove a “for all” with a general argument instead of one concrete counterexample.</li>
-      <li>Using an arbitrary object (“let S be a set with |S| = 99”) where a specific counterexample is required.</li>
-      <li>Using specific numbers for x and y when the claim is about all x and y.</li>
-      <li>Jumping from “no two elements share a remainder” to s − t ≢ 0 without stating s ≢ t first.</li>
-    </ul></div>
-    <div class="card"><h3>Rationals and parity</h3><ul>
-      <li>Asserting rational + rational = rational without proof when the problem did not grant it.</li>
-      <li>Claiming 2a/b “must be even” when it may not even be an integer.</li>
-      <li>Forgetting a case: x rational and y irrational is a different case from x irrational and y rational.</li>
-      <li>Using WLOG across cases that are not symmetric (a and b are not interchangeable in a² − 4b).</li>
-      <li>Wrong negation of “exactly one of x, y is rational”.</li>
-    </ul></div>
-    <div class="card"><h3>Functions</h3><ul>
-      <li>Not stating the domains of a and b, or stating them after using them.</li>
-      <li>Defining one-to-one backwards (a = b → f(a) = f(b)), or using horizontal-line-test or calculus arguments.</li>
-      <li>Onto proofs that solve for a but never show a is in the domain or substitute back to confirm f(a) = b.</li>
-      <li>Mis-composing piecewise functions: after applying f once, re-check which branch the output falls in.</li>
-      <li>Disproving onto using cardinality hand-waving instead of a specific missed output.</li>
-    </ul></div>
-    <div class="card"><h3>Modular arithmetic</h3><ul>
-      <li>Stopping at the inverse (x ≡ −9) instead of multiplying both sides of the original congruence by it.</li>
-      <li>Multiplying one side by the inverse and the other by the original coefficient.</li>
-      <li>Combining coefficients wrong on the way back up the EEA (e.g. 11 − 2(27 − 2·11) is 5·11 − 2·27, not 3·11 − 2·27).</li>
-      <li>Dropping a minus sign; always check the final x by substituting.</li>
-      <li>Reducing an exponent mod m instead of using a known power ≡ 1 (2¹⁰¹ mod 7 is not 2³ because 101 ≡ 3 mod 7).</li>
-    </ul></div>
-    <div class="card"><h3>Sets</h3><ul>
-      <li>Reading A ⊄ C as “every element of A is outside C”. It means some element of A is outside C.</li>
-      <li>Using set identities when the problem says definitions only.</li>
-      <li>Forgetting that ∅ is a subset of every set and that P(S) always contains ∅.</li>
-    </ul></div>
-    <div class="card"><h3>Exam mechanics</h3><ul>
-      <li>Not announcing the proof style or the rephrased statement; those are rubric lines.</li>
-      <li>Using scratch-work reasoning (“solve for a”) inside the proof without substituting back.</li>
-      <li>Spending the first hour on multiple choice. Budget about 50 minutes for the 7 written questions.</li>
-      <li>Not shading bubbles. Only shaded answers are graded for MC.</li>
-    </ul></div>
+
+  <div class="block">
+    <h4>How to write each proof</h4>
+    <div class="two">
+      <div class="ex"><div class="t">Onto proof</div><div class="pre">Let b ∈ B be arbitrary.
+[scratch: solve f(a) = b for a]
+Let a = (formula in b).
+a ∈ A because … (check the domain!)
+f(a) = … = b.   So f is onto.</div></div>
+      <div class="ex"><div class="t">Onto disproof</div><div class="pre">Consider b = (specific value).
+Suppose some a ∈ A has f(a) = b.
+Then … a = (value) which is not in A,
+or no real a works. So nothing maps to b;
+f is not onto.</div></div>
+      <div class="ex"><div class="t">One-to-one proof</div><div class="pre">Let a₁, a₂ ∈ A with f(a₁) = f(a₂).
+… algebra (state domain facts you use,
+like 4x + 5 ≠ 0) …
+So a₁ = a₂. Hence f is one-to-one.</div></div>
+      <div class="ex"><div class="t">One-to-one disproof</div><div class="pre">Consider a₁ = (value), a₂ = (different value),
+both in A. Then f(a₁) = … = f(a₂) but
+a₁ ≠ a₂. So f is not one-to-one.</div></div>
+    </div>
   </div>
+
+  <div class="block">
+    <h4>Abstract functions and composition</h4>
+    <ul>
+      <li>For h(x) = f(g(x)) with g : A → B, f : B → C: if h is one-to-one then g is one-to-one; if h is onto then f is onto. The other two are not guaranteed (A = {a}, B = {b₁, b₂}, C = {c}, g(a) = b₁, f(b₁) = f(b₂) = c).</li>
+      <li>Proof of “h onto ⇒ f onto”: let c ∈ C; h onto gives a with f(g(a)) = c; set b = g(a) ∈ B; then f(b) = c.</li>
+      <li>Proof of “h one-to-one ⇒ g one-to-one”: if g(a₁) = g(a₂), apply f to get h(a₁) = h(a₂), so a₁ = a₂.</li>
+      <li>Functions on sets: f(S, T) = S ∪ T from P(A) × P(B) to P(U) can be a bijection, non-injective, or non-surjective depending on A, B, U, but never has an empty domain since (∅, ∅) is always an input.</li>
+      <li>Piecewise functions: after one application, re-check which branch the output lands in before applying again.</li>
+    </ul>
+  </div>
+
+  <div class="watch"><h4>Watch out (from the practice exam keys)</h4><ul>
+    <li>Not declaring the domain of a₁, a₂ (or b), or declaring it after use.</li>
+    <li>Writing the one-to-one definition backwards (a = b → f(a) = f(b) is true of every function).</li>
+    <li>Horizontal line test, “strictly increasing,” or derivatives are not proofs in this course.</li>
+    <li>Onto: solving for a but never checking a ∈ A, or never substituting back to show f(a) = b.</li>
+    <li>Disproving onto with cardinality talk instead of one specific missed output.</li>
+  </ul></div>
 </section>
 
-<footer>Sources: Lecture 15 review slides and handout, Lecture 13–14 exam logistics slides, Discussion 6x midterm review, Homework 1–6 reminders, Practice Exam 1 and 2 solution keys, Learning Objectives F26. Progress and ratings are stored only in this browser.</footer>
+<!-- ================= L12 ================= -->
+<section id="s12">
+  <div class="sec-head"><span class="lec">Lecture 12</span><h2>Countability</h2></div>
+  <div class="vocab"><span>|A| ≤ |B|</span><span>|A| = |B|</span><span>countable</span><span>countably infinite ℵ₀</span><span>uncountable</span><span>Schröder–Bernstein</span><span>diagonalization</span></div>
+
+  <div class="block">
+    <h4>Comparing infinite sets with functions</h4>
+    <ul>
+      <li><span class="rule">|A| ≤ |B|</span> iff there is a one-to-one f : A → B. <span class="rule">|A| ≥ |B|</span> iff there is an onto f : A → B. <span class="rule">|A| = |B|</span> iff there is a bijection.</li>
+      <li><b>Schröder–Bernstein:</b> if |A| ≤ |B| and |B| ≤ |A| then |A| = |B|. So two one-to-one maps, one each way, prove equal cardinality without building a bijection.</li>
+      <li><b>Countable:</b> |S| ≤ |ℤ⁺|, i.e. S is finite or its elements can be listed s₁, s₂, s₃, … so that every element appears at a finite position. <b>Countably infinite:</b> |S| = |ℤ⁺| = ℵ₀. <b>Uncountable:</b> |S| &gt; |ℤ⁺|.</li>
+      <li>“Countable” includes finite sets. A multiple-answer question asking for “countably infinite” excludes ∅ and finite sets.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h4>Facts you may use without proof (HW 6 reminders)</h4>
+    <div class="two">
+      <div class="asks"><h4>Countable</h4><ul>
+        <li>ℕ, ℤ, ℤ⁺, ℚ, ℚ⁺</li>
+        <li>ℤ × ℤ and any finite product of countable sets (zigzag through the grid)</li>
+        <li>A union of two, or countably many, countable sets</li>
+        <li>Any subset of a countable set</li>
+        <li>Finite sets, the primes, the even integers, the set of finite-length strings</li>
+      </ul></div>
+      <div class="asks"><h4>Uncountable</h4><ul>
+        <li>ℝ, [0, 1], any interval such as [−10, 10] or (0, 1)</li>
+        <li>ℝ − ℚ (the irrationals), ℝ − ℤ, ℝ minus any countable set</li>
+        <li>P(ℤ), P(ℕ): the power set of an infinite set is always strictly bigger</li>
+        <li>Infinite binary sequences</li>
+        <li>Any set that contains an uncountable subset</li>
+      </ul></div>
+    </div>
+    <ul>
+      <li>Standard bijections to recognise: ℤ⁺ → ℕ by n ↦ n − 1; ℤ⁺ → ℤ by alternating 0, 1, −1, 2, −2, …; ℤ⁺ → ℤ⁺ × ℤ⁺ by diagonals; (0, 1) → ℝ by a stretching function.</li>
+      <li>Intersections can collapse: ℤ ∩ (ℤ × ℤ) = ∅ because integers are not ordered pairs.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h4>Diagonalization: [0, 1] is uncountable</h4>
+    <div class="pre">Seeking contradiction, suppose some f : ℤ⁺ → [0, 1] is onto.
+List f(1), f(2), f(3), … as infinite decimals in a table.
+Let d be the diagonal number: its i-th digit is the i-th digit of f(i).
+Let s be the shifted diagonal: add 5 to every digit of d (9 rolls over to 4, etc.).
+s ∈ [0, 1], but for every i the i-th digit of s differs from the i-th digit of f(i),
+so s ≠ f(i) for all i. Then f is not onto. Contradiction.</div>
+    <ul>
+      <li>General shape: table the items, read the diagonal, alter every diagonal entry, and the new row differs from row i in position i, so it is missing from the table.</li>
+      <li>Shifting by 5 (rather than by 1) avoids the 0.4999… = 0.5000… ambiguity.</li>
+    </ul>
+  </div>
+
+  <div class="asks"><h4>How it shows up on exams</h4><ul>
+    <li>Multiple-answer: which of these sets are countable / countably infinite.</li>
+    <li>Short answer: show |A| = |B| by giving a bijection, or two one-to-one maps plus Schröder–Bernstein.</li>
+    <li>Explain a step of the diagonalization proof or why a proposed listing misses something.</li>
+  </ul></div>
+</section>
+
+<!-- ================= FINAL ================= -->
+<section id="final" class="final">
+  <div class="sec-head"><span class="lec">Before you walk in</span><h2>Last-ten-minutes checklist</h2></div>
+  <ol>
+    <li><b>Prove ∃:</b> name a witness and check it is in the domain. <b>Prove ∀:</b> arbitrary element. <b>Disprove ∀:</b> one counterexample. <b>Disprove ∃:</b> generic argument.</li>
+    <li>Nested quantifiers outside in. Later choices may depend on earlier variables, never the reverse.</li>
+    <li>Negation of “if p then q” is “p and not q”. Negation of iff is “exactly one side holds”. Domain restrictions do not flip.</li>
+    <li>Announce every proof style and write the rephrased statement: “We show the contrapositive: …” / “Seeking contradiction, suppose …” / “We use cases on …”.</li>
+    <li>Cases must cover everything. WLOG only under true symmetry. End each case in the exact required form.</li>
+    <li>Rational means a/b with b ≠ 0. Prove closure facts from fractions unless granted. √2 irrational is granted.</li>
+    <li>Subset proofs are element-chasing: “Let x ∈ left … so x ∈ right.” Set equality is two subset proofs. A ⊄ C means some element escapes.</li>
+    <li>|P(S)| = 2<sup>|S|</sup>. |A × B| = |A||B|. ∅ ⊆ everything; (∅, ∅) is always in P(A) × P(B).</li>
+    <li>Mod: substitute freely in sums and products, reduce early, never divide, never reduce an exponent mod m. Look for a power ≡ ±1 first.</li>
+    <li>Inverse exists iff gcd(a, m) = 1. EEA: down to 1, back up as (coef)·m + (coef)·a, then multiply <i>both sides</i> and check.</li>
+    <li>Fermat: a<sup>p−1</sup> ≡ 1 (mod p) for prime p ∤ a. Exponents reduce mod p − 1.</li>
+    <li>One-to-one: f(a₁) = f(a₂) → a₁ = a₂, with domains stated first. Onto: arbitrary b, construct a, show a ∈ A, substitute back. Disproofs use specific values.</li>
+    <li>Composition: h one-to-one ⇒ g one-to-one; h onto ⇒ f onto. Nothing else is guaranteed.</li>
+    <li>Countable: ℕ, ℤ, ℚ, products, unions, subsets. Uncountable: ℝ, intervals, ℝ minus countable, power sets of infinite sets. Countable includes finite.</li>
+    <li>Multiple-answer questions lose 2 points per error; judge every option independently. MC first, then short answer, then a solid block for free response. Shade the bubbles.</li>
+  </ol>
+</section>
+
 </main>
 </div>
+
+<footer>Compiled from the Fall 2026 lecture slides and handouts for Lectures 1–12, the Lecture 15 review, Homework 1–6 reminders, Discussion worksheets 1–6, and the Common Mistakes notes in both practice exam solution keys. Graph theory and combinatorial game theory are omitted because they are not on Exam 1.</footer>
 </div>
 
 <script>
 (function(){
-  var LS_RATE='eecs203-ex1-ratings', LS_PLAN='eecs203-ex1-plan', LS_UNIQ='eecs203-ex1-uniq';
-  function load(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
-  function save(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
-
-  /* ---- countdown ---- */
-  var exam = new Date(2026,9,22,19,0,0);
-  function tick(){
-    var ms = exam - new Date(), el = document.getElementById('cd');
-    if(ms <= 0){ el.textContent = ms > -2*3600*1000 ? 'In progress' : 'Done'; return; }
-    var d=Math.floor(ms/864e5), h=Math.floor(ms%864e5/36e5), m=Math.floor(ms%36e5/6e4);
-    el.textContent = d+'d '+String(h).padStart(2,'0')+'h '+String(m).padStart(2,'0')+'m';
-  }
-  tick(); setInterval(tick, 30000);
-
-  /* ---- room lookup ---- */
-  var ranges=[['AAA','CHRYS 133'],['ARJB','CHRYS 165'],['CHRK','DOW 1206'],['DSB','DOW 1013'],['JIALC','DOW 1014'],['KMHC','LCSIB 1365'],['MVP','LCSIB 1355'],['UUP','LCSIB 2365']];
-  var uniq=document.getElementById('uniq'), roomEl=document.getElementById('room');
-  function room(){
-    var u=(uniq.value||'').toUpperCase().replace(/[^A-Z]/g,'');
-    var rows=document.querySelectorAll('#rooms tr'); rows.forEach(function(r){ r.style.background=''; r.style.fontWeight=''; });
-    if(u.length<2){ roomEl.textContent=''; return; }
-    var idx=0; for(var i=0;i<ranges.length;i++){ if(u>=ranges[i][0]) idx=i; }
-    roomEl.textContent=ranges[idx][1];
-    if(rows[idx]){ rows[idx].style.background='var(--soft)'; rows[idx].style.fontWeight='600'; }
-    try{ localStorage.setItem(LS_UNIQ, uniq.value); }catch(e){}
-  }
-  try{ uniq.value = localStorage.getItem(LS_UNIQ)||''; }catch(e){}
-  uniq.addEventListener('input', room); room();
-
-  /* ---- plan checkboxes ---- */
-  var plan=load(LS_PLAN);
-  var boxes=document.querySelectorAll('.task input[type=checkbox]');
-  function paintPlan(){
-    var done=0; boxes.forEach(function(b){ b.closest('.task').classList.toggle('done', b.checked); if(b.checked) done++; });
-    document.getElementById('t-plan').textContent = done+'/'+boxes.length;
-  }
-  boxes.forEach(function(b){
-    b.checked = !!plan[b.id];
-    b.addEventListener('change', function(){ plan[b.id]=b.checked; save(LS_PLAN, plan); paintPlan(); });
-  });
-  paintPlan();
-  document.getElementById('resetPlan').addEventListener('click', function(){
-    plan={}; save(LS_PLAN, plan); boxes.forEach(function(b){ b.checked=false; }); paintPlan();
-  });
-  var today=new Date(); var ymd=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
-  document.querySelectorAll('.day').forEach(function(d){ if(d.dataset.day===ymd) d.classList.add('today'); });
-
-  /* ---- topic checklist ---- */
-  var topics=[
-    {lec:'L1', name:'Propositions, predicates, quantifiers', objs:[
-      'Tell a proposition from a predicate; identify quantifier, domain, predicate',
-      'Prove a simple ∀ statement with an arbitrary element and the definition of even/odd']},
-    {lec:'L2', name:'Proofs and disproofs, nested quantifiers', objs:[
-      'Decide whether a quantified proposition is true or false',
-      'Prove ∃ by naming an example; prove ∀ with a generic element',
-      'Disprove ∀ with a counterexample; disprove ∃ with a generic argument',
-      'Handle nested quantifiers outside-in, letting later choices depend on earlier variables',
-      'Use the definition of divides (d | n iff n = dk)']},
-    {lec:'L3', name:'Negations and contrapositive', objs:[
-      'Negate quantified statements, including with and / or / if-then / iff',
-      'Explain why proof by contrapositive is valid and write one cleanly',
-      'Prove an iff in both directions; negate an iff']},
-    {lec:'L4', name:'Logical equivalence and Boolean algebra', objs:[
-      'Build truth tables for compound propositions (¬ ∧ ∨ → ↔)',
-      'Translate English to logic and back, including restricted domains',
-      'Simplify or prove equivalence using De Morgan, distributive, implication breakout']},
-    {lec:'L5', name:'Proof by contradiction', objs:[
-      'Set up a contradiction proof: state the negation, derive something false, name the contradiction',
-      'Prove irrationality facts (√2 irrational, irrational ± rational) from the a/b definition']},
-    {lec:'L6', name:'Proof by cases and WLOG', objs:[
-      'Choose cases that cover the whole domain and finish each case in the required form',
-      'Use WLOG only when cases are genuinely symmetric',
-      'Work with the definition of prime']},
-    {lec:'L8', name:'Sets', objs:[
-      'Read and write set-builder notation; compute cardinality of finite sets and power sets',
-      'Compute unions, intersections, differences, complements, Cartesian products',
-      'Prove A ⊆ B with an arbitrary element, and set equality with mutual subsets',
-      'Connect set operations to logic (∪ is ∨, ∩ is ∧, complement is ¬)']},
-    {lec:'L9', name:'Modular arithmetic', objs:[
-      'Use the three equivalent definitions of a ≡ b (mod m)',
-      'Reduce large numbers and exponents step by step; fast modular exponentiation',
-      'Use mod in proofs (e.g. parity or divisibility by cases on remainder)']},
-    {lec:'L10', name:'Modular inverses, EEA, Fermat', objs:[
-      'Find an inverse by guess-and-check for small m',
-      'Run the Extended Euclidean Algorithm forward and backward without sign errors',
-      'Solve ax ≡ c (mod m) by multiplying both sides by the inverse, then check',
-      'Apply Fermat’s Little Theorem to reduce exponents mod p − 1']},
-    {lec:'L11', name:'Functions', objs:[
-      'Decide whether a rule is a function; identify domain, codomain, range',
-      'Prove or disprove one-to-one with the f(a₁) = f(a₂) → a₁ = a₂ definition',
-      'Prove or disprove onto: arbitrary b, construct a, show a is in the domain, substitute back',
-      'Prove properties of abstract functions and compositions']},
-    {lec:'L12', name:'Countability', objs:[
-      'Define countable via |S| ≤ |ℤ⁺| and recognize standard countable and uncountable sets',
-      'Show two infinite sets have equal cardinality with a bijection or Schröder–Bernstein',
-      'Follow and explain the diagonalization proof that [0, 1] is uncountable']}
-  ];
-  var ratings=load(LS_RATE), list=document.getElementById('topicList');
-  topics.forEach(function(t,ti){
-    var det=document.createElement('details'); det.className='topic';
-    var sum=document.createElement('summary');
-    sum.innerHTML='<span class="lec">'+t.lec+'</span><h3>'+t.name+'</h3><span class="mini"></span><span class="chev">›</span>';
-    det.appendChild(sum);
-    var objs=document.createElement('div'); objs.className='objs';
-    t.objs.forEach(function(o,oi){
-      var key=ti+'-'+oi;
-      var row=document.createElement('div'); row.className='obj';
-      var txt=document.createElement('div'); txt.textContent=o;
-      var rate=document.createElement('div'); rate.className='rate'; rate.setAttribute('role','group'); rate.setAttribute('aria-label','Rate: '+o);
-      [['g','Solid'],['w','Shaky'],['b','Not yet']].forEach(function(p){
-        var btn=document.createElement('button'); btn.type='button'; btn.dataset.v=p[0]; btn.textContent=p[1];
-        if(ratings[key]===p[0]) btn.classList.add('on');
-        btn.addEventListener('click', function(){
-          if(ratings[key]===p[0]){ delete ratings[key]; } else { ratings[key]=p[0]; }
-          save(LS_RATE, ratings);
-          rate.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', ratings[key]===b.dataset.v); });
-          paintTopics();
-        });
-        rate.appendChild(btn);
-      });
-      row.appendChild(txt); row.appendChild(rate); objs.appendChild(row);
-    });
-    det.appendChild(objs); list.appendChild(det);
-  });
-  function paintTopics(){
-    var g=0,w=0,b=0,total=0;
-    document.querySelectorAll('.topic').forEach(function(det,ti){
-      var mini=det.querySelector('.mini'); mini.innerHTML='';
-      var hasOpen=false;
-      topics[ti].objs.forEach(function(_,oi){
-        total++; var v=ratings[ti+'-'+oi]; var i=document.createElement('i');
-        if(v==='g'){g++; i.className='g';} else if(v==='w'){w++; i.className='w'; hasOpen=true;} else if(v==='b'){b++; i.className='b'; hasOpen=true;} else { hasOpen=true; }
-        mini.appendChild(i);
-      });
-    });
-    document.getElementById('t-solid').textContent=g+' / '+total;
-    document.getElementById('t-shaky').textContent=(w+b)+(total-g-w-b>0?' + '+(total-g-w-b)+' unrated':'');
-    var bar=document.getElementById('t-bar').children;
-    bar[0].style.width=(100*g/total)+'%'; bar[1].style.width=(100*w/total)+'%'; bar[2].style.width=(100*b/total)+'%';
-  }
-  paintTopics();
-  var firstTopic=document.querySelector('.topic'); if(firstTopic) firstTopic.open=true;
-
-  /* ---- rail highlight ---- */
   var links=document.querySelectorAll('nav.rail a'), secs=[].slice.call(document.querySelectorAll('main section'));
   function hl(){
     var y=window.scrollY+120, cur=secs[0];
