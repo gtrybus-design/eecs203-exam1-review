@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EECS 203 Exam 1 Proof Review</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400..700;1,400..600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#E9EDF3;--surface:#FFFFFF;--fg:#14233A;--muted:#4A5568;--line:#D5DBE5;--accent:#2B5FA8;--maize:#F2B705;--maize-fg:#1d1a00;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0B1626;--surface:#13243D;--fg:#E6EBF1;--muted:#9AA7B5;--line:#24354C;--accent:#9DB9E3;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:15.5px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent)}
+header.top{max-width:1320px;margin:0 auto;padding-block:24px 14px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;border-bottom:3px solid var(--maize)}
+header h1{font-family:'Source Serif 4',Georgia,serif;font-size:2rem;margin:4px 0 0;line-height:1.15}
+.eyebrow{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.lede{max-width:62ch;color:var(--muted);margin:6px 0 0}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{font:600 .82rem 'IBM Plex Sans',sans-serif;padding:8px 12px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--bg)}
+.btn:focus-visible,.reveal:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.shell{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:24px;padding-top:20px;padding-bottom:56px}
+@media (min-width:1000px){.shell{grid-template-columns:260px minmax(0,1fr)}}
+nav.rail{position:sticky;top:12px;align-self:start;max-height:calc(100vh - 24px);overflow:auto;display:flex;flex-direction:column;gap:2px;font-size:.88rem}
+@media (max-width:999px){nav.rail{position:static;max-height:none;flex-direction:row;flex-wrap:wrap} nav.rail .grp{display:none}}
+nav.rail .grp{margin:12px 0 4px;font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+nav.rail a{text-decoration:none;color:var(--muted);padding:5px 8px;border-radius:6px;border-left:3px solid transparent;display:block}
+nav.rail a:hover{background:var(--surface);color:var(--fg)}
+nav.rail a.on{color:var(--fg);background:var(--surface);border-left-color:var(--maize)}
+nav.rail .n{font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--muted);margin-right:8px;display:inline-block;min-width:1.6em}
+main{display:flex;flex-direction:column;gap:30px;min-width:0}
+.slidewrap{scroll-margin-top:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.meta{display:flex;justify-content:space-between;align-items:center;min-height:34px}
+.num{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted)}
+.reveal{font:600 .8rem 'IBM Plex Sans',sans-serif;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--maize);color:var(--maize-fg);cursor:pointer}
+.reveal[aria-pressed="true"]{background:var(--surface);color:var(--fg)}
+.frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.18),0 8px 24px rgba(0,0,0,.10);background:#fff}
+.scale{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:top left;transform:scale(var(--s,.5))}
+.scale section{position:relative;width:1920px;height:1080px;overflow:hidden;box-sizing:border-box}
+.scale h1,.scale h2,.scale h3,.scale p{margin:0}
+.scale p{line-height:1.4}
+.scale h1,.scale h2,.scale h3{font-weight:600}
+.frame.hidden-proof .scale p[style*="monospace"]{filter:blur(16px);user-select:none;transition:filter .2s}
+.frame.hidden-proof::after{content:"Say the style and the first line, then reveal";position:absolute;left:50%;bottom:4%;transform:translateX(-50%);background:var(--maize);color:var(--maize-fg);font:600 clamp(11px,1.6vw,17px) 'IBM Plex Sans',sans-serif;padding:7px 16px;border-radius:999px;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+details.notes{font-size:.9rem;color:var(--muted)}
+details.notes summary{cursor:pointer;font-weight:600}
+details.notes p{margin:6px 0 0;max-width:80ch}
+footer{max-width:1320px;margin:0 auto;padding-block:0 48px;color:var(--muted);font-size:.85rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div>
+    <div class="eyebrow">EECS 203 · Fall 2026 · Exam 1 · Thu Oct 22, 7–9 pm</div>
+    <h1>Exam 1 Proof Review</h1>
+    <p class="lede">24 slides covering every proof type on the practice exams and in lecture. Proofs start blurred: say the style and the first line, then reveal.</p>
+  </div>
+  <div class="tools">
+    <button class="btn" id="toggleAll" type="button" aria-pressed="true">Self-test mode: on</button>
+    <a class="btn" href="index.html">Course summary</a>
+    <a class="btn" href="dashboard.html">Dashboard</a>
+  </div>
+</header>
+<div class="shell">
+<nav class="rail" aria-label="Slides">
+<p class="grp">The moves every proof is built from.</p>
+<a href="#cover" data-id="cover"><span class="n">1</span>Every proof you could be asked to write</a>
+<a href="#grid" data-id="grid"><span class="n">2</span>Four moves for every ∀ and ∃</a>
+<a href="#templates" data-id="templates"><span class="n">3</span>Four proof templates</a>
+<p class="grp">Parity, divisibility, and number-theory proofs.</p>
+<a href="#direct-3x4y" data-id="direct-3x4y"><span class="n">4</span>If 3x − 4y is even, then x is even</a>
+<a href="#cases-parity" data-id="cases-parity"><span class="n">5</span>3x(x + 5) is even for every integer x</a>
+<a href="#steven-evens" data-id="steven-evens"><span class="n">6</span>If (x + 4)(y + 7) is odd, then x is ___ and y is ___</a>
+<a href="#a2-4b" data-id="a2-4b"><span class="n">7</span>No integers a, b satisfy a² − 4b = 2</a>
+<a href="#divides-plus1" data-id="divides-plus1"><span class="n">8</span>If a | b and a &gt; 1, then a ∤ (b + 1)</a>
+<p class="grp">Rational and irrational numbers.</p>
+<a href="#running-rational" data-id="running-rational"><span class="n">9</span>If x + y is rational, then x, y are both rational or both irrational</a>
+<a href="#log23" data-id="log23"><span class="n">10</span>Prove that log₂(3) is irrational</a>
+<a href="#proof5" data-id="proof5"><span class="n">11</span>If x − 2y is rational and xy is irrational, then x and y are both irrational</a>
+<p class="grp">Sets and element-chasing.</p>
+<a href="#subset-chase" data-id="subset-chase"><span class="n">12</span>Given B ⊆ C, prove (C − B) ∪ (B − A) ⊆ C</a>
+<a href="#set-equality" data-id="set-equality"><span class="n">13</span>Prove (A − B) ∪ (A ∩ B) = A</a>
+<a href="#settling-subsets" data-id="settling-subsets"><span class="n">14</span>Prove or disprove, for all sets A, B, C</a>
+<p class="grp">Modular arithmetic and pigeonhole.</p>
+<a href="#eea" data-id="eea"><span class="n">15</span>Solve 27x ≡ 2 (mod 38) with the EEA</a>
+<a href="#mod-squad" data-id="mod-squad"><span class="n">16</span>x ≡ 17 (mod 14) and y ≡ 26 (mod 21). Prove xy ≡ 1 (mod 7)</a>
+<a href="#pigeonhole" data-id="pigeonhole"><span class="n">17</span>Sets of 99 integers: differences and squares</a>
+<p class="grp">Functions: one-to-one, onto, composition.</p>
+<a href="#one-to-one" data-id="one-to-one"><span class="n">18</span>Proving a function is one-to-one</a>
+<a href="#onto" data-id="onto"><span class="n">19</span>Proving and disproving onto</a>
+<a href="#composition" data-id="composition"><span class="n">20</span>If h(x) = f(g(x)) is a bijection, what must hold?</a>
+<a href="#reducing" data-id="reducing"><span class="n">21</span>Reducing functions: prove for all f, disprove with one f</a>
+<p class="grp">Countability and diagonalization.</p>
+<a href="#countable" data-id="countable"><span class="n">22</span>Countable or uncountable?</a>
+<a href="#diagonal" data-id="diagonal"><span class="n">23</span>Why [0, 1] is uncountable</a>
+<p class="grp">The self-check to run on any proof.</p>
+<a href="#checklist" data-id="checklist"><span class="n">24</span>Seven questions before you write the last line</a>
+</nav>
+<main>
+<article class="slidewrap" id="cover" data-test="0">
+<div class="meta"><span class="num">1 / 24</span></div>
+<div class="frame"><div class="scale"><section id="cover" data-transition="fade" style="background:#0F1E33;color:#F2F4F7;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:space-between;gap:48px">
+<p style="font-size:28px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#F2B705">EECS 203 · Exam 1 · Thursday, Oct 22 · 7–9 pm</p>
+<div style="display:flex;flex-direction:column;gap:40px">
+<h1 style="font-family:'Source Serif 4', Georgia, serif;font-size:112px;font-weight:600;line-height:1.05">Every proof you could be asked to write</h1>
+<p style="font-size:38px;line-height:1.4;color:#C9D4E6;width:1400px">Pulled from the lectures and both practice exams. Cover the answer, say the proof style and the first line out loud, then check.</p>
+</div>
+<div style="display:flex;gap:16px;flex-wrap:wrap">
+<p style="font-size:26px;font-weight:500;background:#172A45;color:#F2F4F7;padding:12px 24px;border-radius:999px">Parity &amp; divisibility</p>
+<p style="font-size:26px;font-weight:500;background:#172A45;color:#F2F4F7;padding:12px 24px;border-radius:999px">Rationals</p>
+<p style="font-size:26px;font-weight:500;background:#172A45;color:#F2F4F7;padding:12px 24px;border-radius:999px">Sets</p>
+<p style="font-size:26px;font-weight:500;background:#172A45;color:#F2F4F7;padding:12px 24px;border-radius:999px">Mod</p>
+<p style="font-size:26px;font-weight:500;background:#172A45;color:#F2F4F7;padding:12px 24px;border-radius:999px">Functions</p>
+<p style="font-size:26px;font-weight:500;background:#172A45;color:#F2F4F7;padding:12px 24px;border-radius:999px">Countability</p>
+</div>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Plan: 24 slides, one proof each. For every slide, cover the right-hand side first and say out loud: the quantifier, the proof style, and the first line. Then read the proof and check the trap box at the bottom. Any slide where you could not state the first line is the one to redo from scratch on paper.</p></details>
+</article>
+<article class="slidewrap" id="grid" data-test="0">
+<div class="meta"><span class="num">2 / 24</span></div>
+<div class="frame"><div class="scale"><section id="grid" data-transition="fade" style="background:#0F1E33;color:#F2F4F7;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#F2B705">Lectures 2–3 · the grid behind every proof</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:60px;font-weight:600;line-height:1.1">Four moves for every ∀ and ∃</h2>
+</div>
+<div style="display:grid;grid-template-columns:260px 1fr 1fr;gap:16px;align-items:stretch">
+<div></div>
+<p style="font-size:28px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#9DB9E3">To prove</p>
+<p style="font-size:28px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#9DB9E3">To disprove</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:44px;font-weight:500;color:#F2B705">∃x P(x)</p>
+<p style="font-size:32px;line-height:1.35;background:#172A45;padding:28px;border-radius:16px">Name <b>one specific x</b> in the domain. Show P(x) is true. Show x is in the domain.</p>
+<p style="font-size:32px;line-height:1.35;background:#172A45;padding:28px;border-radius:16px">Let x be <b>arbitrary</b>. Show P(x) fails for that generic x.</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:44px;font-weight:500;color:#F2B705">∀x P(x)</p>
+<p style="font-size:32px;line-height:1.35;background:#172A45;padding:28px;border-radius:16px">Let x be <b>arbitrary</b>. Argue P(x) using only that x is in the domain.</p>
+<p style="font-size:32px;line-height:1.35;background:#172A45;padding:28px;border-radius:16px">Name <b>one counterexample</b>. Show P(x) is false there.</p>
+</div>
+<p style="font-size:30px;line-height:1.4;color:#C9D4E6">Nested quantifiers go <b>outside in</b>. A later ∃ may depend on earlier ∀ variables, never the reverse. Checking examples is never a proof of a ∀.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#9DB9E3">Lecture 2 handout · Lecture 3 negations</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>This grid is the spine of the whole exam. Every proof below starts by identifying which cell of this grid you are in. Prove a for-all: arbitrary element, never a specific value. Disprove a for-all: one concrete counterexample. Prove an exists: name a witness and show it is in the domain. Disprove an exists: generic argument that it fails for every element.</p></details>
+</article>
+<article class="slidewrap" id="templates" data-test="0">
+<div class="meta"><span class="num">3 / 24</span></div>
+<div class="frame"><div class="scale"><section id="templates" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Lectures 3, 5, 6 · announce the style</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:60px;font-weight:600;line-height:1.1">Four proof templates</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:36px;font-weight:600">Direct</h3>
+<p style="font-size:26px;color:#4A5568">Default. Unpack, do algebra, land on the definition.</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:25px;line-height:1.45;background:#E8ECF3;padding:14px 18px;border-radius:10px">Let x be arbitrary with [hypothesis].<br>So x = 2k for some integer k.<br>… algebra … = 2(integer).<br>So [conclusion].</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:36px;font-weight:600">Contrapositive</h3>
+<p style="font-size:26px;color:#4A5568">Hypothesis is awkward, conclusion is easy to assume.</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:25px;line-height:1.45;background:#E8ECF3;padding:14px 18px;border-radius:10px">We show the contrapositive:<br>“if not q, then not p.”<br>Let x be arbitrary with not q.<br>… direct proof … so not p.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:36px;font-weight:600">Contradiction</h3>
+<p style="font-size:26px;color:#4A5568">Claims with ≠, “not divisible”, “irrational”, “no x”.</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:25px;line-height:1.45;background:#E8ECF3;padding:14px 18px;border-radius:10px">Seeking contradiction, suppose<br>“there exist … with … and not q.”<br>… derive something false …<br>This contradicts [name it].</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:36px;font-weight:600">Cases</h3>
+<p style="font-size:26px;color:#4A5568">Domain splits: even/odd, sign, remainder mod 4.</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:25px;line-height:1.45;background:#E8ECF3;padding:14px 18px;border-radius:10px">We use cases on the parity of x.<br>Case 1: x = 2k … [conclusion].<br>Case 2: x = 2k+1 … [conclusion].<br>In every case, [conclusion].</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Rule from lecture: write the rephrased statement before any algebra. That is where rubric points live.</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Whenever you use a style, do two things: announce it, and write down the statement you will actually prove. For contrapositive that is the flipped if-then. For contradiction that is the full negation, with the quantifier turned over. For cases, say what you are splitting on and make sure the cases cover everything.</p></details>
+</article>
+<article class="slidewrap" id="direct-3x4y" data-test="1">
+<div class="meta"><span class="num">4 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="direct-3x4y" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Parity · Lecture 15, Proof 1</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:56px;font-weight:600;line-height:1.1">If 3x − 4y is even, then x is even</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Cover the proofs. Three styles all work. State each style and its first line.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Direct</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let x, y be integers<br>with 3x − 4y = 2k.<br>Then 3x = 2k + 4y,<br>so x = 2k + 4y − 2x<br>&#160;&#160;&#160;= 2(k + 2y − x).<br>k + 2y − x is an integer,<br>so x is even.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Contrapositive</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">We show: if x is odd,<br>then 3x − 4y is odd.<br>Let x = 2k + 1. Then<br>3x − 4y = 6k + 3 − 4y<br>&#160;&#160;&#160;= 2(3k − 2y + 1) + 1.<br>That is odd. ∎</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Contradiction</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Suppose 3x − 4y is<br>even and x is odd.<br>Let x = 2k + 1. Then<br>3x − 4y<br>&#160;&#160;&#160;= 2(3k − 2y + 1) + 1,<br>which is odd. This<br>contradicts “even”.</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Trap.</b></span> Announce the style and write the rephrased claim first. Keep x and y arbitrary; never plug in numbers.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Lecture 15 review, Proof 1</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Even/odd definitions: x is even if x = 2k, odd if x = 2k + 1, for an integer k. The contrapositive is usually the cleanest here because assuming x is odd gives you something concrete, while assuming 3x − 4y is even gives you an equation with two unknowns. All three versions finish by exhibiting the form 2 times an integer, or 2 times an integer plus 1.</p></details>
+</article>
+<article class="slidewrap" id="cases-parity" data-test="1">
+<div class="meta"><span class="num">5 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="cases-parity" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Cases · Lecture 15, Proof 4</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:56px;font-weight:600;line-height:1.1">3x(x + 5) is even for every integer x</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Cover the cases. What are you splitting on, and what exact form must each case end in?</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;background:#E8ECF3;padding:14px 20px;border-radius:10px">Let x be any integer. We use cases on the parity of x.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Case 1: x is even</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:25px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let x = 2k for an integer k.<br>3x(x + 5) = 3(2k)(2k + 5)<br>&#160;&#160;= 2 · [3k(2k + 5)].<br>The bracket is an integer,<br>so the product is even.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Case 2: x is odd</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:25px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let x = 2k + 1. Then<br>x + 5 = 2(k + 3), so<br>3x(x + 5) = 2 · [3(2k + 1)(k + 3)].<br>The bracket is an integer,<br>so the product is even.</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Trap.</b></span> Finish each case in the literal form 2 · (integer). Say “in both cases” at the end.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Lecture 15 review, Proof 4</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Why cases: nothing about 3x(x+5) is obviously even until you know the parity of x. Even x makes the first factor x even. Odd x makes x + 5 even. Either way a factor of 2 shows up. The cases must cover every integer, which even and odd do. Never end a case with just &quot;so it is even&quot;; show the 2 times an integer.</p></details>
+</article>
+<article class="slidewrap" id="steven-evens" data-test="1">
+<div class="meta"><span class="num">6 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="steven-evens" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Parity · Practice Exam 2, Problem 16 · 10 pts</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:52px;font-weight:600;line-height:1.1">If (x + 4)(y + 7) is odd, then x is ___ and y is ___</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Two jobs: fill in the blanks, then prove it using the definitions of even and odd. Which style is shortest?</p>
+<div style="display:grid;grid-template-columns:520px 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Step 1: the blanks</h3>
+<p style="font-size:28px;line-height:1.4">x + 4 is odd only if x is odd. y + 7 is odd only if y is even.</p>
+<p style="font-size:30px;font-weight:600;color:#2B5FA8">x odd, y even</p>
+<p style="font-size:26px;line-height:1.4;color:#4A5568">Points: blanks 2, contrapositive 2, cases 2, algebra 4.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Step 2: contrapositive, then cases</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">We show: if x is even or y is odd, then (x + 4)(y + 7) is even.<br>Case 1: x even, x = 2k. Then (2k + 4)(y + 7) = 2(k + 2)(y + 7).<br>Case 2: y odd, y = 2m + 1. Then (x + 4)(2m + 8) = 2(x + 4)(m + 4).<br>Either way the product is even. ∎</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Trap.</b></span> Negating “x odd and y even” gives “x even or y odd”, an or, so you need cases. You can reuse k in a separate case.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Practice Exam 2, Problem 16. Alternates: all four parity cases, or the product-is-odd lemma.</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Reading order: decide the answer first by asking when each factor can be odd. A product of two integers is odd only when both factors are odd. So x + 4 odd forces x odd, and y + 7 odd forces y even. For the proof, the contrapositive is &quot;if x is even or y is odd, then the product is even&quot;. That is an or, so split into the two cases. In each case one factor is visibly even.</p></details>
+</article>
+<article class="slidewrap" id="a2-4b" data-test="1">
+<div class="meta"><span class="num">7 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="a2-4b" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Contradiction · Practice Exam 2, Problem 15 · 10 pts</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:56px;font-weight:600;line-height:1.1">No integers a, b satisfy a² − 4b = 2</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">First line: write the negation exactly. Then find the false statement it forces.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Contradiction on parity</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Suppose integers a, b exist with<br>a² − 4b = 2. Then a² = 2(2b + 1),<br>so a² is even, so a is even.<br>Let a = 2k. Then 4k² = 2(2b + 1),<br>so 2k² = 2b + 1. Even = odd.<br>Contradiction. ∎</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Contradiction, cases mod 4</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Suppose a² − 4b = 2. Mod 4, 4b ≡ 0,<br>so a² ≡ 2. Cases on a mod 4:<br>a ≡ 0: a² ≡ 0. a ≡ 1: a² ≡ 1.<br>a ≡ 2: a² ≡ 4 ≡ 0. a ≡ 3: a² ≡ 9 ≡ 1.<br>No case gives 2. Contradiction. ∎</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Traps.</b></span> Negation is “there exist a, b with a² − 4b = 2”, not “≠”. One example failing is not a contradiction. In a proof by cases, “a odd, b even” and “a even, b odd” are different cases, so no WLOG.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Practice Exam 2, Problem 15 (five accepted solutions)</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>The negation of &quot;there do not exist a and b such that a squared minus 4b equals 2&quot; is &quot;there exist a and b such that a squared minus 4b equals 2&quot;. To contradict a there-exists you must derive something false from it for those a and b, not show that some values fail. The parity argument uses the Lecture 3 fact that if a squared is even then a is even. A third accepted route is cases on the parity of a alone, since 4b is always even.</p></details>
+</article>
+<article class="slidewrap" id="divides-plus1" data-test="1">
+<div class="meta"><span class="num">8 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="divides-plus1" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Divisibility · Lecture 15, Proof 3</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:56px;font-weight:600;line-height:1.1">If a | b and a &gt; 1, then a ∤ (b + 1)</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Definition first: a | b means b = aj for some integer j. What is the negation you would assume?</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Contradiction</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Suppose integers a, b with a | b, a &gt; 1,<br>and a | (b + 1). So b = aj, b + 1 = ak.<br>Then aj + 1 = ak, so 1 = a(k − j),<br>so k − j = 1/a. But k − j is an integer<br>and 1/a is not, since a &gt; 1. ∎</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Direct</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let a | b with a &gt; 1, so b = am.<br>Then b + 1 = am + 1 = a(m + 1/a).<br>Since a &gt; 1, 1/a is not an integer,<br>so m + 1/a is not an integer.<br>So a does not divide b + 1. ∎</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Trap.</b></span> The negation keeps both hypotheses: “a | b, a &gt; 1, and a | (b + 1)”. The contradiction is an integer equal to a non-integer, and it only works because a &gt; 1.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Lecture 15 review, Proof 3. Same idea: 18a + 6b ≠ 1 (Lecture 5).</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>The key fact is that an integer cannot equal a number between 0 and 1. The contradiction proof is quicker because subtracting the two divisibility equations isolates 1/a. Remember that the negation of a for-all-if-then statement is there-exist with the hypotheses AND the negated conclusion.</p></details>
+</article>
+<article class="slidewrap" id="running-rational" data-test="1">
+<div class="meta"><span class="num">9 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="running-rational" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Rationals · Practice Exam 1, Problem 11 · 8 pts</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:50px;font-weight:600;line-height:1.1">If x + y is rational, then x, y are both rational or both irrational</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Rational means a/b with integers a, b and b ≠ 0. You may not assume “rational + rational is rational”. Write the negation.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Running Rational</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Suppose x + y is rational and exactly one<br>of x, y is rational. WLOG x is that one:<br>x = a/b and x + y = c/d (b, d ≠ 0).<br>Then y = c/d − a/b = (cb − da)/(db),<br>a ratio of integers, so y is rational.<br>Contradiction. ∎</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Same move: x − y + 3z</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Claim: x, y rational and x − y + 3z<br>irrational imply z irrational. Suppose z<br>is rational too: x = a/b, y = c/d, z = e/f.<br>Then x − y + 3z = (adf − cbf + 3bde)/(bdf),<br>a ratio of integers, so rational.<br>Contradiction. ∎</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Trap.</b></span> The negation is “exactly one is rational”, not “neither”. Show the fraction; do not cite closure facts the problem did not grant.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Sources: Practice Exam 1 Problem 11 (key uses WLOG, which is fine since x and y are symmetric); Lecture 15 Proof 2</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Negation of &quot;x plus y rational implies both rational or both irrational&quot; is &quot;x plus y rational and exactly one of x, y rational&quot;. WLOG is legitimate here because the statement is symmetric in x and y. The whole proof is: subtract the known rational from the known rational sum and the leftover must be rational, contradicting irrationality. Write out the common denominator.</p></details>
+</article>
+<article class="slidewrap" id="log23" data-test="1">
+<div class="meta"><span class="num">10 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="log23" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Irrationals · Practice Exam 1, Problem 14 · 8 pts</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:56px;font-weight:600;line-height:1.1">Prove that log₂(3) is irrational</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Given: log_b(a) = x exactly when b^x = a, and log₂(3) &gt; 0. Which style, and what do you do with the exponent a/b?</p>
+<div style="display:grid;grid-template-columns:1fr 640px;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Proof by contradiction</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:25px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Suppose log₂(3) = a/b, integers, b ≠ 0.<br>WLOG a, b &gt; 0, since log₂(3) &gt; 0.<br>By definition of log, 3 = 2^(a/b).<br>Raise both sides to the b: 3^b = 2^a.<br>3^b is odd and 2^a is even (a ≥ 1).<br>Even = odd. Contradiction. ∎</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Where the points are</h3>
+<p style="font-size:26px;line-height:1.4">Negation 2 · a/b form 1 · log definition 1 · 3^b = 2^a 1 · positive a, b 1 · odd vs even 1 · contradiction 1.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A5568">Odd and even facts may be used without proof.</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Traps.</b></span> Do not say 2^(a/b) is even; it need not be an integer. Raise to the b first. Writing ln 3 / ln 2 proves nothing without more work.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Practice Exam 1, Problem 14</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>This is the same shape as the square root of 2 proof: assume a fraction, clear the exponent, and compare parity. Raising 2^(a/b) to the b is the move that turns a possibly non-integer into the integer 2^a. Positivity of a and b matters so that 2^a is an even integer and 3^b is an odd integer.</p></details>
+</article>
+<article class="slidewrap" id="proof5" data-test="1">
+<div class="meta"><span class="num">11 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="proof5" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Contrapositive + cases · Lecture 15, Proof 5</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:50px;font-weight:600;line-height:1.1">If x − 2y is rational and xy is irrational, then x and y are both irrational</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Given: sums and products of rationals are rational; a rational combined with an irrational is irrational. Flip it with De Morgan.</p>
+<div style="display:grid;grid-template-columns:600px 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Scratch: the flip</h3>
+<p style="font-size:26px;line-height:1.45">not(both irrational) becomes “x or y is rational”.</p>
+<p style="font-size:26px;line-height:1.45">not(x − 2y rational and xy irrational) becomes “x − 2y irrational <b>or</b> xy rational”.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Proof by contrapositive, with cases</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">We show: if x or y is rational, then x − 2y is<br>irrational or xy is rational.<br>Case 1: x rational, y irrational. 2y is irrational,<br>so x − 2y is irrational.<br>Case 2: x irrational, y rational. 2y is rational,<br>so x − 2y is irrational.<br>Case 3: both rational. Then xy is rational.<br>In every case the conclusion holds. ∎</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Trap.</b></span> Do not assume either side of the “or” inside a case. Each case must end by proving one of the two. All three cases are needed.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Lecture 15 review, Proof 5 (Exam 1 style)</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Original: (x minus 2y rational AND xy irrational) implies (x irrational AND y irrational). Contrapositive: negate the conclusion to get x rational OR y rational, and negate the hypothesis to get x minus 2y irrational OR xy rational. The hypothesis of the contrapositive is an or, so it splits naturally into cases. Case 3 covers both rational, which is allowed by the or.</p></details>
+</article>
+<article class="slidewrap" id="subset-chase" data-test="1">
+<div class="meta"><span class="num">12 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="subset-chase" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Sets · Lecture 15 sets proof · definitions only</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:52px;font-weight:600;line-height:1.1">Given B ⊆ C, prove (C − B) ∪ (B − A) ⊆ C</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Subset proofs always start the same way. What is your first sentence, and how do you handle the “or”?</p>
+<div style="display:grid;grid-template-columns:520px 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Definitions</h3>
+<p style="font-size:26px;line-height:1.45">S ⊆ T: for all x, x ∈ S → x ∈ T.</p>
+<p style="font-size:26px;line-height:1.45">x ∈ S ∪ T: x ∈ S or x ∈ T.</p>
+<p style="font-size:26px;line-height:1.45">x ∈ S − T: x ∈ S and x ∉ T.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Element-chase</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let x ∈ (C − B) ∪ (B − A).<br>By definition of union, x ∈ C − B or x ∈ B − A.<br>Case 1: x ∈ C − B. Then x ∈ C and x ∉ B. So x ∈ C.<br>Case 2: x ∈ B − A. Then x ∈ B. Since B ⊆ C, x ∈ C.<br>In every case x ∈ C. So the union is a subset of C. ∎</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Trap.</b></span> “Using only definitions” bans set identities and logic laws. Start from an arbitrary x in the left side, and cite the definition each time you use one.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Lecture 15 review, Sets Proof. Pattern for every ⊆ proof.</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Skeleton for any subset proof: let x be arbitrary with x in the left set, unpack with definitions, split on any or, and end with x in the right set. The given B subset C is used exactly once, in Case 2. In Case 1 you do not need it at all.</p></details>
+</article>
+<article class="slidewrap" id="set-equality" data-test="1">
+<div class="meta"><span class="num">13 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="set-equality" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Sets · Practice Exam 2, Problem 11 · 7 pts</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:56px;font-weight:600;line-height:1.1">Prove (A − B) ∪ (A ∩ B) = A</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Equality means two subset proofs. Name both claims before you start. Which one needs the case split on x ∈ B?</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Direction 1: left ⊆ A</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let x ∈ (A − B) ∪ (A ∩ B).<br>Case 1: x ∈ A − B. Then x ∈ A.<br>Case 2: x ∈ A ∩ B. Then x ∈ A.<br>So x ∈ A. Hence left ⊆ A.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Direction 2: A ⊆ left</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let x ∈ A. Split on whether x ∈ B.<br>Case 1: x ∈ B. Then x ∈ A ∩ B.<br>Case 2: x ∉ B. Then x ∈ A − B.<br>Either way x is in the union. ∎</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Traps.</b></span> Both directions are required; the second is not the first one backwards. Venn diagrams and set identities earn no credit. The two claims are left ⊆ A and A ⊆ left, not (A − B) ⊆ (A ∩ B).</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Practice Exam 2, Problem 11</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Set equality is proved by mutual inclusion. In direction 1 the case split comes from the union, so you split because the hypothesis is an or. In direction 2 there is no or in your hypothesis, so you create the split yourself on whether x is in B, and each case lands in a different piece of the union.</p></details>
+</article>
+<article class="slidewrap" id="settling-subsets" data-test="1">
+<div class="meta"><span class="num">14 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="settling-subsets" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Sets · Practice Exam 1, Problem 12 · 8 pts</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:52px;font-weight:600;line-height:1.1">Prove or disprove, for all sets A, B, C</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Decide prove or disprove for each, then recall: A ⊄ C means there exists x ∈ A with x ∉ C.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">(a) A ⊆ B and B ⊄ C, so A ⊄ C</h3>
+<p style="font-size:30px;font-weight:600;color:#B3261E">Disprove</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Counterexample: A = ∅, B = {0}, C = {1}.<br>A ⊆ B and B ⊄ C, but A ⊆ C because<br>the empty set is a subset of every set.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">(b) A ⊆ B and A ⊄ C, so B ⊄ C</h3>
+<p style="font-size:30px;font-weight:600;color:#1F7A4D">Prove</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">A ⊄ C gives some x ∈ A with x ∉ C.<br>Since A ⊆ B, x ∈ B. So x ∈ B and x ∉ C,<br>which means B ⊄ C. ∎</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Traps.</b></span> (a) One concrete counterexample, not an argument about arbitrary sets. (b) Do not read A ⊄ C as “every x in A is outside C”. Cardinalities say nothing here.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Practice Exam 1, Problem 12</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Part a is a for-all, so a single counterexample disproves it. The empty set makes a clean one. Part b: unpack the negated subset into its there-exists, then use the given subset relation on that specific witness. Do not take an arbitrary x in A and claim it is outside C; only some element is guaranteed to be.</p></details>
+</article>
+<article class="slidewrap" id="eea" data-test="1">
+<div class="meta"><span class="num">15 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="eea" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Mod · Practice Exam 2, Problem 14 · 8 pts</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:56px;font-weight:600;line-height:1.1">Solve 27x ≡ 2 (mod 38) with the EEA</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Three phases: Euclid down, substitute back up, then multiply both sides. Which one do students forget?</p>
+<div style="display:grid;grid-template-columns:1fr 600px;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Down, up, multiply</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">38 = 1·27 + 11<br>27 = 2·11 + 5<br>11 = 2·5 + 1<br>1 = 11 − 2·5 = 11 − 2(27 − 2·11) = 5·11 − 2·27<br>&#160;&#160;= 5(38 − 27) − 2·27 = 5·38 − 7·27<br>So 27⁻¹ ≡ −7. Multiply BOTH sides by −7:<br>x ≡ −14 ≡ 24 (mod 38). Check: 27·24 = 17·38 + 2.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Same recipe, Exam 1</h3>
+<p style="font-size:26px;line-height:1.45">20x ≡ 2 (mod 67): 1 = 3·67 − 10·20, so 20⁻¹ ≡ −10 and x ≡ −20 ≡ <b>47</b>.</p>
+<p style="font-size:26px;line-height:1.45;color:#4A5568">Check: 20·47 = 940 = 14·67 + 2.</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Traps.</b></span> Stopping at the inverse; multiplying one side only; combining coefficients wrong (11 − 2(27 − 2·11) is 5·11 − 2·27); dropping a sign. Trial and error earns no credit.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Sources: Practice Exam 2 Problem 14; Practice Exam 1 Problem 15</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>The inverse exists because the gcd of 27 and 38 is 1, which the last nonzero remainder of 1 shows. Work back up keeping every line in the form (coefficient) times (modulus) plus (coefficient) times (the number). The coefficient of 27 in the final line is the inverse. Then multiply the original congruence on both sides, and always verify by plugging in.</p></details>
+</article>
+<article class="slidewrap" id="mod-squad" data-test="1">
+<div class="meta"><span class="num">16 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="mod-squad" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Mod · Practice Exam 2, Problem 13 · 7 pts</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:52px;font-weight:600;line-height:1.1">x ≡ 17 (mod 14) and y ≡ 26 (mod 21). Prove xy ≡ 1 (mod 7)</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Why does knowing x mod 14 tell you x mod 7? Use the definition a ≡ b (mod m) iff a = b + km.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">Reduce, then substitute</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">x ≡ 17 ≡ 3 (mod 14), y ≡ 26 ≡ 5 (mod 21).<br>Since 7 | 14 and 7 | 21, x ≡ 3 and y ≡ 5<br>(mod 7). So xy ≡ 3 · 5 = 15 ≡ 1 (mod 7). ∎</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">From the definition</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">x = 3 + 14a = 3 + 7(2a), y = 5 + 7(3b).<br>xy = 15 + 7(9b + 10a + 42ab) = 15 + 7k.<br>So xy ≡ 15 ≡ 1 (mod 7). ∎</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Trap.</b></span> Say why you may drop from mod 14 to mod 7: 7 divides 14. Multiplying out (17 + 14a)(26 + 21b) works but wastes time.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Practice Exam 2, Problem 13. Substitution laws: Lecture 9.</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Substitution law: if a is congruent to b mod m then a plus c and a times c are congruent to b plus c and b times c. The definition version makes the divisibility by 7 explicit by writing each number as a constant plus a multiple of 7. Both are accepted; the first is faster.</p></details>
+</article>
+<article class="slidewrap" id="pigeonhole" data-test="1">
+<div class="meta"><span class="num">17 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="pigeonhole" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Mod + cases · Practice Exam 1, Problem 16 · 11 pts</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:52px;font-weight:600;line-height:1.1">Sets of 99 integers: differences and squares</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">For |S| = 100 the pigeonhole proof worked. For |S| = 99, decide prove or disprove for (a) s − t and (b) s² − t² being multiples of 99.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">(a) s − t: <span style="color:#B3261E">Disprove</span></h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Take S = {0, 1, …, 98}, so |S| = 99.<br>For distinct s, t ∈ S: s − t ≠ 0 and<br>−99 &lt; s − t &lt; 99, so 99 ∤ (s − t).</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">(b) s² − t²: <span style="color:#1F7A4D">Prove</span></h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Case 1: some s ≠ t have s ≡ t (mod 99).<br>Then s² − t² ≡ 0.<br>Case 2: all residues differ, so all 99 occur.<br>Take s ≡ 1, t ≡ 10: s² − t² ≡ 1 − 100 ≡ 0.</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Traps.</b></span> (a) needs an explicit set, not an arbitrary S. “99 is not &gt; 99” does not by itself make it false. (b) Cover both cases and justify the residue claim.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Practice Exam 1, Problem 16</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Part b works because squaring merges residues: 1 and 10 have different residues mod 99 but the same square, 1 and 100. So 99 elements cannot give 99 different squares, and two squares must match. The case split is the clean way to say it: either two elements already agree mod 99, or all 99 residues appear and the pair 1 and 10 is forced.</p></details>
+</article>
+<article class="slidewrap" id="one-to-one" data-test="1">
+<div class="meta"><span class="num">18 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="one-to-one" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Functions · Practice Exam 1 Problem 13a · Lecture 15</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:56px;font-weight:600;line-height:1.1">Proving a function is one-to-one</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Definition: for all a₁, a₂ in the domain, f(a₁) = f(a₂) implies a₁ = a₂. Say the domain before you use a₁ and a₂.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:32px;font-weight:600">f : ℝ⁺ → ℝ, f(x) = x⁴ − 2</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let a, b ∈ ℝ⁺ with f(a) = f(b).<br>Then a⁴ − b⁴ = 0, so<br>(a² + b²)(a + b)(a − b) = 0.<br>Since a, b &gt; 0, a² + b² &gt; 0 and a + b &gt; 0.<br>So a − b = 0, i.e. a = b. ∎</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:32px;font-weight:600">f(x) = 3/(4x + 5), x ≠ −5/4</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let x₁, x₂ ∈ ℝ − {−5/4} with<br>f(x₁) = f(x₂). So 3/(4x₁ + 5) = 3/(4x₂ + 5).<br>Cross-multiply: 3(4x₂ + 5) = 3(4x₁ + 5).<br>So 4x₂ = 4x₁, hence x₁ = x₂. ∎</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Traps.</b></span> State both inputs’ domain first. No horizontal line test, no calculus. Do not write the definition backwards. To disprove, name two different inputs with the same output.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Sources: Practice Exam 1 Problem 13(a); Lecture 15 Onto and 1-1 proofs</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>The only thing positivity buys you in the first proof is that the factors a squared plus b squared and a plus b are nonzero, which lets you cancel to get a minus b equals zero. If the domain were all reals the function would not be one-to-one: for example, 1 and negative 1 give the same output.</p></details>
+</article>
+<article class="slidewrap" id="onto" data-test="1">
+<div class="meta"><span class="num">19 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="onto" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Functions · Practice Exam 2 Problem 12 · Practice Exam 1 Problem 13b</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:56px;font-weight:600;line-height:1.1">Proving and disproving onto</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Definition: for all b in the codomain there exists a in the domain with f(a) = b. Prove with an arbitrary b; disprove with one named b.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:32px;font-weight:600">f : ℝ⁺ → ℝ⁺, f(x) = √(2/x): <span style="color:#1F7A4D">onto</span></h3>
+<p style="font-size:25px;line-height:1.4;color:#4A5568">Scratch, off to the side: b = √(2/a) gives a = 2/b².</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let b ∈ ℝ⁺ be arbitrary. Let a = 2/b².<br>Since b² &gt; 0, a &gt; 0, so a ∈ ℝ⁺.<br>f(a) = √(2 / (2/b²)) = √(b²) = b. ∎</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:32px;font-weight:600">f : ℝ⁺ → ℝ, f(x) = x⁴ − 2: <span style="color:#B3261E">not onto</span></h3>
+<p style="font-size:25px;line-height:1.4;color:#4A5568">Any value ≤ −2 works, but name one.</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Consider −2 ∈ ℝ. Suppose f(a) = −2 for<br>some a ∈ ℝ⁺. Then a⁴ = 0. But a &gt; 0 gives<br>a⁴ &gt; 0. Contradiction, so f is not onto. ∎</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Traps.</b></span> Show your a is in the domain, and substitute back to get f(a) = b. Disprove with a specific value, not a range. “|ℝ⁺| &lt; |ℝ|” is false, so cardinality is no argument.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Sources: Practice Exam 2 Problem 12; Practice Exam 1 Problem 13(b). Also: 3x³ + 9 on ℝ⁺ misses 6.</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>The staff note that the most common lost point on onto proofs was forgetting to show that the constructed a belongs to the domain. Also solve for a on scratch paper, then in the graded proof simply define a and verify f of a equals b. Doing the algebra backward inside the proof costs a point.</p></details>
+</article>
+<article class="slidewrap" id="composition" data-test="1">
+<div class="meta"><span class="num">20 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="composition" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Functions · Lecture 15, composition</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:52px;font-weight:600;line-height:1.1">If h(x) = f(g(x)) is a bijection, what must hold?</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">g : A → B and f : B → C. Which of “g onto, f onto, g one-to-one, f one-to-one” are guaranteed? Prove two, disprove two.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:32px;font-weight:600"><span style="color:#1F7A4D">f is onto</span></h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let c ∈ C. Since h is onto, some a ∈ A<br>has f(g(a)) = c. Let b = g(a) ∈ B.<br>Then f(b) = c. So f is onto. ∎</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:32px;font-weight:600"><span style="color:#1F7A4D">g is one-to-one</span></h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let g(a₁) = g(a₂). Apply f: h(a₁) = h(a₂).<br>h is one-to-one, so a₁ = a₂.<br>So g is one-to-one. ∎</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:32px;font-weight:600"><span style="color:#B3261E">g need not be onto; f need not be one-to-one</span></h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">A = {a}, B = {b₁, b₂}, C = {c}, g(a) = b₁, f(b₁) = f(b₂) = c.<br>h is a bijection, but g misses b₂ and f sends b₁ and b₂ to c.</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Lecture 15 review, Onto and 1-1 with function composition. Answer: f onto, g one-to-one.</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Memory aid: the outer function inherits onto, the inner function inherits one-to-one. Onto only needs h onto to push through f; one-to-one only needs h one-to-one to pull back through g. The one-point counterexample shows the other two fail.</p></details>
+</article>
+<article class="slidewrap" id="reducing" data-test="1">
+<div class="meta"><span class="num">21 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="reducing" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Functions · Practice Exam 2, Problem 17 · 12 pts</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:52px;font-weight:600;line-height:1.1">Reducing functions: prove for all f, disprove with one f</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">f is reducing if f(x) &lt; x for all x. It is absolutely reducing if f(x) &lt; |x| for all x. For each, g(x) = f(f(x)): prove or disprove?</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:32px;font-weight:600">(a) reducing: <span style="color:#1F7A4D">Prove</span></h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let f be an arbitrary reducing function<br>and x any real. Then f(x) &lt; x. Applying<br>“reducing” at the input f(x): f(f(x)) &lt; f(x).<br>So f(f(x)) &lt; f(x) &lt; x. ∎</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:32px;font-weight:600">(b) absolutely reducing: <span style="color:#B3261E">Disprove</span></h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Let f(0) = −10, f(−10) = 1,<br>f(x) = −1 otherwise. Then f(0) &lt; 0,<br>f(−10) = 1 &lt; 10, and −1 &lt; |x| elsewhere.<br>But g(0) = f(−10) = 1, not &lt; |0|. ∎</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Traps.</b></span> (a) Do not pick an example like x − 1; you must handle every reducing f. Cite “reducing” at f(x); do not apply f to both sides of an inequality. (b) Define f at every real, and re-check which branch applies after the first f.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Practice Exam 2, Problem 17</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>Part a has a for-all over functions, so use an arbitrary function and an arbitrary real. The step that does the work is instantiating the reducing property at the input f of x. Part b only needs one fully defined piecewise function. Compose carefully: after applying f to 0 you land on negative 10, so the next application uses the negative-10 branch.</p></details>
+</article>
+<article class="slidewrap" id="countable" data-test="0">
+<div class="meta"><span class="num">22 / 24</span></div>
+<div class="frame"><div class="scale"><section id="countable" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Countability · Lecture 12 · Practice Exams 1 and 2</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:56px;font-weight:600;line-height:1.1">Countable or uncountable?</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Countable means |S| ≤ |ℤ⁺|, which includes finite sets. Countably infinite excludes finite sets.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600"><span style="color:#1F7A4D">Countable</span></h3>
+<p style="font-size:27px;line-height:1.4">ℕ, ℤ, ℚ, ℚ⁺</p>
+<p style="font-size:27px;line-height:1.4">ℤ × ℤ and any finite product of countable sets</p>
+<p style="font-size:27px;line-height:1.4">Unions of countable sets; any subset of a countable set</p>
+<p style="font-size:27px;line-height:1.4">Finite sets, and the empty set</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600"><span style="color:#B3261E">Uncountable</span></h3>
+<p style="font-size:27px;line-height:1.4">ℝ, [0, 1], any interval such as (0, 10)</p>
+<p style="font-size:27px;line-height:1.4">ℝ − ℤ and ℝ − ℚ: remove countably many points and it stays uncountable</p>
+<p style="font-size:27px;line-height:1.4">P(ℤ), the power set of an infinite set</p>
+<p style="font-size:27px;line-height:1.4">Anything containing an uncountable subset</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:32px;font-weight:600">Comparing sizes with a function</h3>
+<p style="font-size:26px;line-height:1.4">|(0, 10)| ≤ |[1, 3]| needs a one-to-one f : (0, 10) → [1, 3]. So f(x) = x/5 + 1 and f(x) = x/10 + 1 both work. g(x) = 5(x − 1) fails: it sends 1 to 0, which is not in (0, 10), and it points the wrong way. Intersections can be empty: ℤ ∩ (ℤ × ℤ) = ∅.</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Sources: Lecture 12; Practice Exam 1 Problems 9–10; Practice Exam 2 Problem 9; Lecture 15 countability</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>For any subset A of the integers: A cross A is countable, A union Z intersect A equals A is countable, A is not necessarily uncountable, and Z minus A is a subset of Z so it cannot be uncountable. Schroder-Bernstein: one-to-one maps in both directions give a bijection, so equal cardinality.</p></details>
+</article>
+<article class="slidewrap" id="diagonal" data-test="1">
+<div class="meta"><span class="num">23 / 24</span><button class="reveal" type="button" aria-pressed="false">Reveal the proof</button></div>
+<div class="frame hidden-proof"><div class="scale"><section id="diagonal" data-transition="fade" style="background:#F2F4F7;color:#14233A;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2B5FA8">Countability · Lecture 12 · diagonalization</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:56px;font-weight:600;line-height:1.1">Why [0, 1] is uncountable</h2>
+</div>
+<p style="font-size:28px;line-height:1.35;border-left:6px solid #F2B705;background:#FFF4CC;padding:10px 24px">Explain it without looking: what is assumed, what is built from the diagonal, and why the new number is missing from the list.</p>
+<div style="display:grid;grid-template-columns:1fr 640px;gap:16px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">The proof</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;background:#E8ECF3;padding:14px;border-radius:10px">Seeking contradiction, suppose f : ℤ⁺ → [0, 1]<br>is onto. List f(1), f(2), f(3), … as decimals.<br>Let d have as its i-th digit the i-th digit<br>of f(i). Let s be d with 5 added to every<br>digit, mod 10. Then s ∈ [0, 1], yet s differs<br>from f(i) in digit i for every i. So f misses<br>s, contradicting onto. ∎</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:1px solid #D5DBE5;border-radius:16px;padding:22px">
+<h3 style="font-size:34px;font-weight:600">An example table</h3>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:26px;line-height:1.55;background:#E8ECF3;padding:14px;border-radius:10px">f(1) = 0.<b>5</b>31…<br>f(2) = 0.1<b>4</b>9…<br>f(3) = 0.72<b>6</b>…<br>d&#160;&#160;&#160;&#160;= 0.546…<br>s&#160;&#160;&#160;&#160;= 0.091…</p>
+<p style="font-size:25px;line-height:1.4;color:#4A5568">Adding 5 avoids the 0.4999… = 0.5000… ambiguity.</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4"><span style="color:#B3261E"><b>Trap.</b></span> Onto is what you assume, because countable means a listing hits every element. The contradiction is that the listing misses s.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5568">Source: Lecture 12 diagonalization proof (the only one you need to follow)</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>General shape of any diagonalization: table the items, read the diagonal, alter each diagonal entry, and the new row cannot equal row i because it differs in position i. The same pattern shows the power set of the integers is uncountable, using bits instead of digits.</p></details>
+</article>
+<article class="slidewrap" id="checklist" data-test="0">
+<div class="meta"><span class="num">24 / 24</span></div>
+<div class="frame"><div class="scale"><section id="checklist" data-transition="fade" style="background:#0F1E33;color:#F2F4F7;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#F2B705">Run this on every proof</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:60px;font-weight:600;line-height:1.1">Seven questions before you write the last line</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<p style="font-size:30px;line-height:1.35;background:#172A45;padding:24px 28px;border-radius:16px"><b>1.</b> Which quantifier, and which cell of the prove/disprove grid am I in?</p>
+<p style="font-size:30px;line-height:1.35;background:#172A45;padding:24px 28px;border-radius:16px"><b>2.</b> Did I write the negation or the rephrased claim before any algebra?</p>
+<p style="font-size:30px;line-height:1.35;background:#172A45;padding:24px 28px;border-radius:16px"><b>3.</b> Did I announce the style: direct, contrapositive, contradiction, or cases?</p>
+<p style="font-size:30px;line-height:1.35;background:#172A45;padding:24px 28px;border-radius:16px"><b>4.</b> Did I declare every variable and its domain before using it?</p>
+<p style="font-size:30px;line-height:1.35;background:#172A45;padding:24px 28px;border-radius:16px"><b>5.</b> Did I use the definition: 2k, 2k + 1, a/b, a = b + km, ⊆, one-to-one, onto?</p>
+<p style="font-size:30px;line-height:1.35;background:#172A45;padding:24px 28px;border-radius:16px"><b>6.</b> Did I land in the exact form the definition needs, in every case?</p>
+<p style="font-size:30px;line-height:1.35;background:#172A45;padding:24px 28px;border-radius:16px;grid-column:span 2"><b>7.</b> Did I say what I showed: “in every case”, “this contradicts …”, “so f is onto”?</p>
+</div>
+<p style="font-size:30px;line-height:1.4;color:#C9D4E6">Any slide where you could not give the style and the first line is the one to redo from scratch on paper.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#9DB9E3">Good luck tonight. You have prepared for this.</p>
+
+</section></div></div>
+<details class="notes"><summary>Speaker notes</summary><p>This is the final self-check. Most points lost on the practice exams were structural: missing domain statements, a wrong negation, a missing case, onto proofs that never substitute back, or EEA solutions that stop at the inverse. If every one of these seven is a yes, the proof will earn its points.</p></details>
+</article>
+</main>
+</div>
+<footer>Built from the Fall 2026 lecture slides, Lecture 15 review, and both practice exam solution keys. Point values and traps come from the staff grading guidelines.</footer>
+<script>
+(function(){
+  var frames=[].slice.call(document.querySelectorAll('.frame'));
+  function fit(){ frames.forEach(function(f){ f.style.setProperty('--s', f.clientWidth/1920); f.querySelector('.scale').style.setProperty('--s', f.clientWidth/1920); }); }
+  fit(); window.addEventListener('resize', fit);
+  if(window.ResizeObserver){ var ro=new ResizeObserver(fit); frames.forEach(function(f){ro.observe(f);}); }
+
+  document.querySelectorAll('.slidewrap').forEach(function(w){
+    var btn=w.querySelector('.reveal'); if(!btn) return;
+    var fr=w.querySelector('.frame');
+    btn.addEventListener('click', function(){
+      var shown=fr.classList.toggle('hidden-proof')===false;
+      btn.setAttribute('aria-pressed', shown?'true':'false');
+      btn.textContent=shown?'Hide the proof':'Reveal the proof';
+    });
+  });
+  var all=document.getElementById('toggleAll');
+  all.addEventListener('click', function(){
+    var on=all.getAttribute('aria-pressed')!=='true';
+    all.setAttribute('aria-pressed', on?'true':'false');
+    all.textContent='Self-test mode: '+(on?'on':'off');
+    document.querySelectorAll('.slidewrap[data-test="1"]').forEach(function(w){
+      var fr=w.querySelector('.frame'), b=w.querySelector('.reveal');
+      fr.classList.toggle('hidden-proof', on);
+      b.setAttribute('aria-pressed', on?'false':'true');
+      b.textContent=on?'Reveal the proof':'Hide the proof';
+    });
+  });
+
+  var links=[].slice.call(document.querySelectorAll('nav.rail a'));
+  var arts=[].slice.call(document.querySelectorAll('.slidewrap'));
+  function hl(){
+    var y=window.scrollY+140, cur=arts[0];
+    arts.forEach(function(a){ if(a.offsetTop<=y) cur=a; });
+    links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('data-id')===cur.id); });
+  }
+  window.addEventListener('scroll', hl, {passive:true}); hl();
+  document.addEventListener('keydown', function(e){
+    if(e.target.tagName==='BUTTON'||e.target.tagName==='SUMMARY') return;
+    var y=window.scrollY+140, idx=0;
+    arts.forEach(function(a,i){ if(a.offsetTop<=y) idx=i; });
+    if(e.key==='ArrowRight'||e.key==='j'){ var n=arts[Math.min(idx+1,arts.length-1)]; n.scrollIntoView({behavior:'smooth'}); e.preventDefault(); }
+    if(e.key==='ArrowLeft'||e.key==='k'){ var p=arts[Math.max(idx-1,0)]; p.scrollIntoView({behavior:'smooth'}); e.preventDefault(); }
+  });
+})();
+</script>
+</body>
+</html>
